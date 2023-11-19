@@ -9,7 +9,7 @@ public class Connection {
 
     static {
         try {
-            connection = DriverManager.getConnection("","user", "Pavlo1212004");
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/control_fridges","user", "Pavlo1212004");
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
