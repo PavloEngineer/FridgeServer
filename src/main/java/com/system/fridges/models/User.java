@@ -1,4 +1,5 @@
 package com.system.fridges.models;
+import com.system.fridges.models.enam.UserType;
 import jakarta.persistence.*;
 
 
@@ -9,7 +10,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
-    private Long userId;
+    private int userId;
 
     @Column(name = "name", nullable = false)
     private String name;
@@ -55,7 +56,7 @@ public class User {
     }
     public User() {}
 
-    public Long getUserId() {
+    public int getUserId() {
         return userId;
     }
 

@@ -1,4 +1,4 @@
-package com.system.fridges.models;
+package com.system.fridges.models.enam;
 
 public enum UserType {
     ADMIN_TYPE1,

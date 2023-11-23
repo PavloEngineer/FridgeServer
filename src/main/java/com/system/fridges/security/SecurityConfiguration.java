@@ -10,6 +10,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -20,57 +22,36 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import java.io.IOException;
 import static org.springframework.security.config.Customizer.withDefaults;
 
-//@Configuration
-//public class SecurityConfiguration {
-//
-//    @Bean
-//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-//        return http
-//                .authorizeHttpRequests(authorize -> authorize
-//                        .requestMatchers("/authentication").permitAll()
-//                        .requestMatchers("/code").permitAll()
-////                        .requestMatchers("/listAdvers").permitAll()
-//                        .requestMatchers("/password").permitAll()
-//                        .requestMatchers("/registration").permitAll()
-//                                .requestMatchers("/css/**", "/js/**", "/img/**").permitAll()
-//                                .requestMatchers("/sellerForm/listAdversS").permitAll()
-//                        .requestMatchers("/listAdvers").hasRole("USER")
-//                        .anyRequest().permitAll()
-//                )
-//                .formLogin(withDefaults())
-//                .addFilterBefore(customFilter(), UsernamePasswordAuthenticationFilter.class)
-//                .build();
-//    }
-//
-//    private OncePerRequestFilter customFilter() {
-//        return new OncePerRequestFilter() {
-//            @Override
-//            protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-//                if (request.getRequestURI().equals("/listAdvers") && !request.isUserInRole("USER")) {
-//                    response.sendRedirect("/authentication");
-//                } else {
-//                    filterChain.doFilter(request, response);
-//                }
-//            }
-//        };
-//    }
-//
-//    @Bean
-//    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
-//        return authenticationConfiguration.getAuthenticationManager();
-//    }
-//
-//    private final CustomUserDetailsService userDetailsService;
-//
-//    public SecurityConfiguration(CustomUserDetailsService userDetailsService) {
-//        this.userDetailsService = userDetailsService;
-//    }
-//
-//    @Bean
-//    public PasswordEncoder passwordEncoder() {
-//        return new BCryptPasswordEncoder();
-//    }
-//
-//
-//}
+@Configuration
+@EnableWebSecurity
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        // Налаштуйте автентифікацію тут, використовуючи різні типи користувачів
+        auth.inMemoryAuthentication()
+                .withUser("user").password(passwordEncoder().encode("password")).roles("USER")
+                .and()
+                .withUser("admin1").password(passwordEncoder().encode("admin1")).roles("ADMIN")
+                .and()
+                .withUser("admin2").password(passwordEncoder().encode("admin2")).roles("ADMIN");
+    }
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http.authorizeRequests()
+                .antMatchers("/api/public/**").permitAll() // Публічні ендпоінти
+                .antMatchers("/api/user/**").hasRole("USER") // Ендпоінти, доступні тільки USER
+                .antMatchers("/api/admin/**").hasRole("ADMIN") // Ендпоінти, доступні тільки ADMIN
+                .and()
+                .formLogin()
+                .and()
+                .logout().logoutSuccessUrl("/").permitAll(); // Налаштування виходу
+    }
+}
 

@@ -2,7 +2,7 @@ package com.system.fridges.repositories;
 
 import com.system.fridges.models.Food;
 import com.system.fridges.models.transferObjects.FoodInFridge;
-import com.system.fridges.models.transferObjects.SpoiledProduct;
+import com.system.fridges.models.transferObjects.SpoiledFood;
 import com.system.fridges.models.transferObjects.UserFood;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -23,8 +23,8 @@ public interface FoodRepository extends JpaRepository<Food, Integer> {
     @Query(value = "SELECT f.name, f.number_boxes, f.date_validity, t.end_date, ac.user_access " +
             "FROM food as f LEFT JOIN transaction as t  ON f.transaction_id = t.transaction_id " +
             "LEFT JOIN access as ac ON ac.access_id = t.access " +
-            "WHERE ac.fridge_access = :fridgeId AND f.date_validity < :timeOfFridge", nativeQuery = true)
-    List<SpoiledProduct> getSpoiledProductByFridgeId(@Param("fridgeId") int fridgeId, @Param("timeOfFridge") Date presentTimeOfFridge);
+            "WHERE ac.fridge_access = :fridgeId AND f.date_validity < current_date()", nativeQuery = true)
+    List<SpoiledFood> getSpoiledFoodByFridgeId(@Param("fridgeId") int fridgeId);
 
     @Query(value = "SELECT f.name, f.number_boxes, f.date_validity, t.end_date, us.name, us.surname, us.patronymic, us.email \n" +
             "            FROM food as f LEFT JOIN transaction as t  ON f.transaction_id = t.transaction_id \n" +

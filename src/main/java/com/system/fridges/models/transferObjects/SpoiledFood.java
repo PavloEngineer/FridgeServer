@@ -3,7 +3,7 @@ package com.system.fridges.models.transferObjects;
 import java.time.LocalDateTime;
 import java.util.Date;
 
-public class SpoiledProduct {
+public class SpoiledFood {
 
     public String foodName;
     public int numberBoxes;
@@ -11,7 +11,7 @@ public class SpoiledProduct {
     public LocalDateTime transactionEndDate;
     public int userAccess;
 
-    public SpoiledProduct (String foodName, int numberBoxes, Date dateValidity, LocalDateTime transactionEndDate, int userAccess) {
+    public SpoiledFood(String foodName, int numberBoxes, Date dateValidity, LocalDateTime transactionEndDate, int userAccess) {
         this.foodName = foodName;
         this.numberBoxes = numberBoxes;
         this.dateValidity = dateValidity;
