@@ -9,7 +9,7 @@ public class Model {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "subscription_id")
+    @Column(name = "model_id")
     private int modelId;
 
     @Column(name = "name_model", nullable = false, unique = true)

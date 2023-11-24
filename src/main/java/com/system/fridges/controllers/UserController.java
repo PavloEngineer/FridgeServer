@@ -46,7 +46,7 @@ public class UserController {
         userService.deleteUser((Integer) session.getAttribute(Constants.USER_ID));
     }
 
-    @GetMapping("/historyUsing")
+    @GetMapping("/history/orders")
     public List<UserOrder> getAllOrders() {
         return userService.getAllOrdersForUserById((Integer) session.getAttribute(Constants.USER_ID));
     }

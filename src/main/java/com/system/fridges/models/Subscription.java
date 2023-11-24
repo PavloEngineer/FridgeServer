@@ -23,8 +23,8 @@ public class Subscription {
     private int price;
 
     @ManyToOne
-    @Column(name = "user_id", nullable = false)
-    @JoinColumn(name = "user_id")
+    //@Column(name = "user_id", nullable = false)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     public Subscription(Date beginDate, Date endDate, int price, User user) {

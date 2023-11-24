@@ -21,7 +21,7 @@ public class AdminController {
         return adminService.getSpendingElectricity(price, nameCompany);
     }
 
-    @GetMapping("/electricity")
+    @GetMapping("/electricitySum")
     public float getSumSpending(float price, String nameCompany) {
         return adminService.getSumSpending(price, nameCompany);
     }

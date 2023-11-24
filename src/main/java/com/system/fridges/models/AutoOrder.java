@@ -21,13 +21,13 @@ public class AutoOrder {
     private int number;
 
     @ManyToOne
-    @Column(name = "access_order", nullable = false)
-    @JoinColumn(name = "access_order")
+    //@Column(name = "access_order", nullable = false)
+    @JoinColumn(name = "access_order", nullable = false)
     private Access  access;
 
     @ManyToOne
-    @Column(name = "product_id", nullable = false)
-    @JoinColumn(name = "product_id")
+    //@Column(name = "product_id", nullable = false)
+    @JoinColumn(name = "product_id", nullable = false)
     private Product  product;
 
     public AutoOrder(LocalDateTime dateDelivery, int number, Access access, Product product) {

@@ -24,8 +24,8 @@ public class Food {
     private String name;
 
     @ManyToOne
-    @Column(name = "transaction_id", nullable = false)
-    @JoinColumn(name = "transaction_id")
+    //@Column(name = "transaction_id", nullable = false)
+    @JoinColumn(name = "transaction_id", nullable = false)
     private Transaction  transaction;
 
     public Food(Date dateValidity, int numberBoxes, String name, Transaction transaction) {

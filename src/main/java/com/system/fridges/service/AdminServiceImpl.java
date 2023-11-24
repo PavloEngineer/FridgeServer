@@ -43,9 +43,6 @@ public class AdminServiceImpl implements AdminService {
     @Autowired
     private ProductRepository productRepository;
 
-    @Autowired
-    private AutoOrder autoOrder;
-
 
     @Override
     public List<FridgeSpending> getSpendingElectricity(float price, String nameCompany) {

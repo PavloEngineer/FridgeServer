@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 
 
 @Entity
-@Table(name = "office")
+@Table(name = "fridge")
 public class Fridge {
 
     @Id
@@ -19,13 +19,13 @@ public class Fridge {
     private float  humidity;
 
     @ManyToOne
-    @Column(name = "office_id", nullable = false)
-    @JoinColumn(name = "office_id")
+    //@Column(name = "office_id", nullable = false)
+    @JoinColumn(name = "office_id", nullable = false)
     private Office  office;
 
     @ManyToOne
-    @Column(name = "model_id", nullable = false)
-    @JoinColumn(name = "model_id")
+    //@Column(name = "model_id", nullable = false)
+    @JoinColumn(name = "model_id", nullable = false)
     private Model  model;
 
     public Fridge(float temperature, float humidity, Office office, Model model) {
