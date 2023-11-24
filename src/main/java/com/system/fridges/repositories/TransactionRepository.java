@@ -1,8 +1,8 @@
 package com.system.fridges.repositories;
 
 import com.system.fridges.models.Transaction;
-import com.system.fridges.models.transferObjects.FridgeTransactionHistory;
-import com.system.fridges.models.transferObjects.UserTransactionHistory;
+import com.system.fridges.models.transferObjects.fridgeObjects.FridgeTransactionHistory;
+import com.system.fridges.models.transferObjects.userObjects.UserTransactionHistory;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

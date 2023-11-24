@@ -1,6 +1,8 @@
 package com.system.fridges.security;
 
 
+import com.system.fridges.service.UserServiceImpl;
+import com.system.fridges.service.interfaces.UserService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -23,35 +25,56 @@ import java.io.IOException;
 import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
-@EnableWebSecurity
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+public class SecurityConfiguration  {
+
+    @Bean
+    public JwtAuthenticationFilter jwtAuthenticationFilter() {
+        return new JwtAuthenticationFilter(); // Створіть свій фільтр для обробки токенів JWT
+    }
+
+
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        return http
+                .cors(withDefaults())
+                .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers("/user/**").hasRole("USER")
+                        .requestMatchers("/admin1/**").hasRole("ADMIN1")
+                        .requestMatchers("/admin2/**").hasRole("ADMIN2")
+                )
+                .formLogin(withDefaults())
+                .addFilterBefore(customFilter(), UsernamePasswordAuthenticationFilter.class)
+                .build();
+    }
+
+    private OncePerRequestFilter customFilter() {
+        return new OncePerRequestFilter() {
+            @Override
+            protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+                if (request.getRequestURI().equals("/user") && !request.isUserInRole("USER")) {
+                    response.sendRedirect("/authentication");
+                } else {
+                    filterChain.doFilter(request, response);
+                }
+            }
+        };
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+        return authenticationConfiguration.getAuthenticationManager();
+    }
+
+    private final UserServiceImpl userDetailsService;
+
+    public SecurityConfiguration(UserServiceImpl userDetailsService) {
+        this.userDetailsService = userDetailsService;
+    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        // Налаштуйте автентифікацію тут, використовуючи різні типи користувачів
-        auth.inMemoryAuthentication()
-                .withUser("user").password(passwordEncoder().encode("password")).roles("USER")
-                .and()
-                .withUser("admin1").password(passwordEncoder().encode("admin1")).roles("ADMIN")
-                .and()
-                .withUser("admin2").password(passwordEncoder().encode("admin2")).roles("ADMIN");
-    }
-
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-                .antMatchers("/api/public/**").permitAll() // Публічні ендпоінти
-                .antMatchers("/api/user/**").hasRole("USER") // Ендпоінти, доступні тільки USER
-                .antMatchers("/api/admin/**").hasRole("ADMIN") // Ендпоінти, доступні тільки ADMIN
-                .and()
-                .formLogin()
-                .and()
-                .logout().logoutSuccessUrl("/").permitAll(); // Налаштування виходу
-    }
 }
 

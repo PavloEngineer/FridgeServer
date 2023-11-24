@@ -1,7 +1,6 @@
 package com.system.fridges.repositories;
 
 import com.system.fridges.models.Subscription;
-import com.system.fridges.models.transferObjects.FridgeOrder;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

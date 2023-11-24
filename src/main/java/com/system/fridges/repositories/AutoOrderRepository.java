@@ -1,8 +1,8 @@
 package com.system.fridges.repositories;
 
 import com.system.fridges.models.AutoOrder;
-import com.system.fridges.models.transferObjects.FridgeOrder;
-import com.system.fridges.models.transferObjects.UserOrder;
+import com.system.fridges.models.transferObjects.fridgeObjects.FridgeOrder;
+import com.system.fridges.models.transferObjects.userObjects.UserOrder;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

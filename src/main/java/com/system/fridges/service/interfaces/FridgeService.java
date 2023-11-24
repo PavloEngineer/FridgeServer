@@ -2,10 +2,10 @@ package com.system.fridges.service.interfaces;
 
 import com.system.fridges.models.AutoOrder;
 import com.system.fridges.models.Fridge;
-import com.system.fridges.models.transferObjects.FoodInFridge;
-import com.system.fridges.models.transferObjects.FridgeOrder;
-import com.system.fridges.models.transferObjects.FridgeSpending;
-import com.system.fridges.models.transferObjects.FridgeTransactionHistory;
+import com.system.fridges.models.transferObjects.foodObjects.FoodInFridge;
+import com.system.fridges.models.transferObjects.fridgeObjects.FridgeOrder;
+import com.system.fridges.models.transferObjects.fridgeObjects.FridgeSpending;
+import com.system.fridges.models.transferObjects.fridgeObjects.FridgeTransactionHistory;
 
 import java.util.List;
 
@@ -26,7 +26,9 @@ public interface FridgeService {
 
     List<FridgeTransactionHistory> getTransactionHistoryById(int fridgeId);
 
-    List<FridgeOrder> getAutoOrdersById(int fridgeId);
+    List<FridgeOrder> getAutoOrdersById(int fridgeId, int userId);
+
+    void addAutoOrders(List<AutoOrder> orders);
 
     void doInventoryForFridge(int fridgeId);
 

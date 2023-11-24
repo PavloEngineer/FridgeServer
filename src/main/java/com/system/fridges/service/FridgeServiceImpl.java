@@ -1,10 +1,13 @@
 package com.system.fridges.service;
 
-import com.system.fridges.models.AutoOrder;
-import com.system.fridges.models.Fridge;
-import com.system.fridges.models.Product;
-import com.system.fridges.models.User;
+
+import com.system.fridges.models.*;
 import com.system.fridges.models.transferObjects.*;
+import com.system.fridges.models.transferObjects.foodObjects.FoodInFridge;
+import com.system.fridges.models.transferObjects.foodObjects.SpoiledFood;
+import com.system.fridges.models.transferObjects.fridgeObjects.FridgeOrder;
+import com.system.fridges.models.transferObjects.fridgeObjects.FridgeSpending;
+import com.system.fridges.models.transferObjects.fridgeObjects.FridgeTransactionHistory;
 import com.system.fridges.repositories.*;
 import com.system.fridges.service.interfaces.FridgeService;
 import com.system.fridges.service.utils.Delivety;
@@ -12,12 +15,8 @@ import com.system.fridges.service.utils.EmailSender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.chrono.ChronoLocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class FridgeServiceImpl implements FridgeService {
@@ -30,6 +29,9 @@ public class FridgeServiceImpl implements FridgeService {
 
     @Autowired
     private TransactionRepository transactionRepository;
+
+    @Autowired
+    private SubscriptionRepository subscriptionRepository;
 
     @Autowired
     private AutoOrderRepository autoOrderRepository;
@@ -80,18 +82,22 @@ public class FridgeServiceImpl implements FridgeService {
     }
 
     @Override
-    public List<FridgeOrder> getAutoOrdersById(int fridgeId) {
-        return autoOrderRepository.getInfoOrdersForFridgeById(fridgeId);
+    public List<FridgeOrder> getAutoOrdersById(int fridgeId, int userId) {
+        if (!subscriptionRepository.getActualSubscriptionsForUser(userId).isEmpty()) {
+            return autoOrderRepository.getInfoOrdersForFridgeById(fridgeId);
+        } else {
+            return null;
+        }
     }
 
-//    @Override
-//    public void doInventoryFridgesInCompany(String nameCompany) {
-//        List<Fridge> fridgesInCompany = fridgeRepository.getCompanyFridges(nameCompany);
-//        for (Fridge fridge : fridgesInCompany) {
-//            List<SpoiledFood> spoiledFoodsInFridge = foodRepository.getSpoiledProductByFridgeId(fridge.getFridgeId());
-//            sendEmailEveryOwnerFood(spoiledFoodsInFridge);
-//        }
-//    }
+    @Override
+    public void addAutoOrders(List<AutoOrder> orders) {
+        autoOrderRepository.saveAll(orders);
+    }
+
+    public void addFood(List<Food> food) {
+        foodRepository.saveAll(food);
+    }
 
     @Override
     public void doInventoryForFridge(int fridgeId) {
@@ -105,10 +111,10 @@ public class FridgeServiceImpl implements FridgeService {
         String bodyMessage;
         try {
             for (SpoiledFood spoiledFood : spoiledFoodsInFridge) {
-                user = userRepository.findById(spoiledFood.userAccess).get();
-                bodyMessage = "Your food:" + spoiledFood.foodName + ", " +
-                        spoiledFood.dateValidity + ", " + spoiledFood.numberBoxes +
-                        ", date transaction:" + spoiledFood.transactionEndDate + " is spoiled. Please, get rid of this food";
+                user = userRepository.findById(spoiledFood.user_access).get();
+                bodyMessage = "Your food:" + spoiledFood.name + ", " +
+                        spoiledFood.date_validity + ", " + spoiledFood.number_boxes +
+                        ", date transaction:" + spoiledFood.end_date + " is spoiled. Please, get rid of this food";
                 emailSender.sendEmail(user.getEmail(), bodyMessage);
             }
         } catch (Exception e) {
@@ -131,4 +137,6 @@ public class FridgeServiceImpl implements FridgeService {
             }
         }
     }
+
+
 }
