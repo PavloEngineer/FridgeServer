@@ -2,10 +2,13 @@ package com.system.fridges.controllers;
 
 import com.system.fridges.models.User;
 import com.system.fridges.models.enam.UserType;
+import com.system.fridges.service.AuthenticationServiceImpl;
+import com.system.fridges.service.CustomUserDetailsService;
 import com.system.fridges.service.UserServiceImpl;
 import com.system.fridges.service.interfaces.UserService;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequestWrapper;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -21,7 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.naming.AuthenticationException;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/authentication")
 public class AuthController {
 
     @Autowired
@@ -30,10 +33,16 @@ public class AuthController {
     @Autowired
     private AuthenticationManager authenticationManager;
 
+    @Autowired
+    private UserServiceImpl userService;
+
         @GetMapping("/login")
-        public ResponseEntity<String> login(@RequestParam("email") String email,
-                @RequestParam("password") String password,
+        public ResponseEntity<String> login(String email,
+                String password,
                 HttpServletRequest request) {
+            email = "pasakan2@gmail.com";
+            password = "1234";
+
             // Створення автентифікаційного об'єкта
             Authentication authentication = new UsernamePasswordAuthenticationToken(email, password);
 
@@ -51,17 +60,19 @@ public class AuthController {
             session.setAttribute("userEmail", email);
 
             // Визначення типу користувача
-            UserServiceImpl userService = new UserServiceImpl();
-            UserType typeUser = userService.findUserByEmail(email).getType();
-            session.setAttribute("userId", userService.findUserByEmail(email).getUserId());
+            User user = userService.findUserByEmail(email);
+            UserType typeUser = user.getType();
 
             // Перенаправлення на сторінку після успішної автентифікації
             if (typeUser.equals(UserType.REGULAR_USER)) {
-                return ResponseEntity.ok().headers(headers).body("/user");
+                System.out.print(ResponseEntity.ok().headers(headers).body("/user/account"));
+                return ResponseEntity.ok().headers(headers).body("/user/account");
             } else if (typeUser.equals(UserType.ADMIN_TYPE1)) {
                 return ResponseEntity.ok().headers(headers).body("/admin");
+            } else if (typeUser.equals(UserType.ADMIN_TYPE2)) {
+                return ResponseEntity.ok().headers(headers).body("/admin");
             } else {
-                return ResponseEntity.ok().headers(headers).body("authentication");
+                return ResponseEntity.ok().headers(headers).body("/authentication");
             }
         }
 

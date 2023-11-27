@@ -48,6 +48,9 @@ public class UserServiceImpl implements UserService {
     @Value("${upload.path}")
     private String uploadPath;
 
+    public UserServiceImpl() {
+    }
+
     @Override
     public List<Fridge> getFridgesByUserId(int userId) {
         return fridgeRepository.getFridgesByUserId(userId);

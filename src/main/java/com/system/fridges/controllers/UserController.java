@@ -33,7 +33,7 @@ public class UserController {
 
     @GetMapping("/account")
     public User getPresentUser() {
-        return userService.getUserById((Integer) session.getAttribute(Constants.USER_ID));
+        return userService.findUserByEmail((String) session.getAttribute(Constants.USER_EMAIL));
     }
 
     @GetMapping("/photo")

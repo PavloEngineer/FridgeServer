@@ -1,6 +1,7 @@
 package com.system.fridges.security;
 
 
+import com.system.fridges.models.enam.UserType;
 import com.system.fridges.service.UserServiceImpl;
 import com.system.fridges.service.interfaces.UserService;
 import jakarta.servlet.FilterChain;
@@ -27,6 +28,8 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @Configuration
 public class SecurityConfiguration  {
 
+    private final UserServiceImpl userDetailsService;
+
     @Bean
     public JwtAuthenticationFilter jwtAuthenticationFilter() {
         return new JwtAuthenticationFilter(); // Створіть свій фільтр для обробки токенів JWT
@@ -38,12 +41,16 @@ public class SecurityConfiguration  {
         return http
                 .cors(withDefaults())
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/user/**").hasRole("USER")
+//                        .requestMatchers("/user/**").hasRole(UserType.REGULAR_USER.toString())
+                        .requestMatchers("/user/**").hasRole(UserType.REGULAR_USER.toString())
                         .requestMatchers("/admin1/**").hasRole("ADMIN1")
                         .requestMatchers("/admin2/**").hasRole("ADMIN2")
+                        .requestMatchers("/authentication/**").permitAll()
+//                        .anyRequest().permitAll()
                 )
                 .formLogin(withDefaults())
-                .addFilterBefore(customFilter(), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(customFilter(), JwtAuthenticationFilter.class)
                 .build();
     }
 
@@ -51,8 +58,12 @@ public class SecurityConfiguration  {
         return new OncePerRequestFilter() {
             @Override
             protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-                if (request.getRequestURI().equals("/user") && !request.isUserInRole("USER")) {
-                    response.sendRedirect("/authentication");
+                if (request.getRequestURI().equals("/user/**") && !request.isUserInRole(UserType.REGULAR_USER.toString())) {
+                    response.sendRedirect("/login"); // TODO: change for auto
+                } else if (request.getRequestURI().equals("/admin1/**") && !request.isUserInRole(UserType.ADMIN_TYPE1.toString())) {
+                    response.sendRedirect("/login"); // TODO: change for auto
+                } else if (request.getRequestURI().equals("/admin2/**") && !request.isUserInRole(UserType.ADMIN_TYPE2.toString())) {
+                    response.sendRedirect("/login"); // TODO: change for auto
                 } else {
                     filterChain.doFilter(request, response);
                 }
@@ -65,7 +76,7 @@ public class SecurityConfiguration  {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
-    private final UserServiceImpl userDetailsService;
+
 
     public SecurityConfiguration(UserServiceImpl userDetailsService) {
         this.userDetailsService = userDetailsService;

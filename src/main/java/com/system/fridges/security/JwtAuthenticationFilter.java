@@ -1,6 +1,7 @@
 package com.system.fridges.security;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -29,9 +30,16 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String token = extractToken(request);
         if (token != null) {
-            Authentication authentication = validateToken(token);
-            if (authentication != null) {
-                SecurityContextHolder.getContext().setAuthentication(authentication);
+            try {
+                Authentication authentication = validateToken(token);
+                if (authentication != null) {
+                    SecurityContextHolder.getContext().setAuthentication(authentication);
+                }
+            } catch (JwtException e) {
+                // Опрацювання помилки валідації токену
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                response.getWriter().write("Invalid token");
+                return;
             }
         }
         filterChain.doFilter(request, response);
@@ -50,7 +58,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             Claims claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
 
             String username = claims.getSubject();
-            List<String> authorities = claims.get("auth", List.class);
+            List<String> authorities = claims.get("authentication", List.class);
 
             List<GrantedAuthority> grantedAuthorities = authorities.stream()
                     .map(CustomAuthority::new)
