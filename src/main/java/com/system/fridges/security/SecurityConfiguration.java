@@ -49,8 +49,8 @@ public class SecurityConfiguration  {
                 .cors(withDefaults())
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/user/**").hasRole(UserType.REGULAR_USER.toString())
-                        .requestMatchers("/admin1/**").hasRole("ADMIN1")
-                        .requestMatchers("/admin2/**").hasRole("ADMIN2")
+                        .requestMatchers("/databaseAdmin/**").hasRole(UserType.DATABASE_ADMIN.toString())
+                        .requestMatchers("/businessAdmin/**").hasRole(UserType.BUSINESS_ADMIN.toString())
                         .requestMatchers("/authentication/**").permitAll()
                         .anyRequest().permitAll()
                 )
@@ -71,22 +71,22 @@ public class SecurityConfiguration  {
         return authProvider;
     }
 
-    private OncePerRequestFilter customFilter() {
-        return new OncePerRequestFilter() {
-            @Override
-            protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-                if (request.getRequestURI().equals("/user/**") && !request.isUserInRole(UserType.REGULAR_USER.toString())) {
-                    response.sendRedirect("/login"); // TODO: change for auto
-                } else if (request.getRequestURI().equals("/admin1/**") && !request.isUserInRole(UserType.ADMIN_TYPE1.toString())) {
-                    response.sendRedirect("/login"); // TODO: change for auto
-                } else if (request.getRequestURI().equals("/admin2/**") && !request.isUserInRole(UserType.ADMIN_TYPE2.toString())) {
-                    response.sendRedirect("/login"); // TODO: change for auto
-                } else {
-                    filterChain.doFilter(request, response);
-                }
-            }
-        };
-    }
+//    private OncePerRequestFilter customFilter() {
+//        return new OncePerRequestFilter() {
+//            @Override
+//            protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+//                if (request.getRequestURI().equals("/user/**") && !request.isUserInRole(UserType.REGULAR_USER.toString())) {
+//                    response.sendRedirect("/login"); // TODO: change for auto
+//                } else if (request.getRequestURI().equals("/admin1/**") && !request.isUserInRole(UserType.ADMIN_TYPE1.toString())) {
+//                    response.sendRedirect("/login"); // TODO: change for auto
+//                } else if (request.getRequestURI().equals("/admin2/**") && !request.isUserInRole(UserType.ADMIN_TYPE2.toString())) {
+//                    response.sendRedirect("/login"); // TODO: change for auto
+//                } else {
+//                    filterChain.doFilter(request, response);
+//                }
+//            }
+//        };
+//    }
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {

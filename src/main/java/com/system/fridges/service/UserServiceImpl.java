@@ -85,6 +85,7 @@ public class UserServiceImpl implements UserService {
         };
     }
 
+    // TODO: incorrect place
     public JwtAuthenticationResponse signIn(SignInRequest signInRequest) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                 signInRequest.getEmail(),
@@ -103,25 +104,29 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<Fridge> getFridgesByUserId(int userId) {
-        return fridgeRepository.getFridgesByUserId(userId);
+    public List<Fridge> getFridgesByUserEmail(String email) {
+        User user = userRepository.findUserByEmail(email);
+        return fridgeRepository.getFridgesByUserId(user.getUserId());
     }
 
     @Override
-    public List<UserFood> getAllFoodUserById(int userId) {
-        return foodRepository.getAllFoodUserById(userId);
+    public List<UserFood> getAllFoodUserByEmail(String email) {
+        User user = userRepository.findUserByEmail(email);
+        return foodRepository.getAllFoodUserById(user.getUserId());
     }
 
     @Override
-    public List<UserTransactionHistory> getTransactionHistoryByUserId(int userId) {transactionRepository.getHistoryUsingByUserId(userId);
-        return transactionRepository.getHistoryUsingByUserId(userId);
+    public List<UserTransactionHistory> getTransactionHistoryByEmail(String email) {
+        User user = userRepository.findUserByEmail(email);
+        return transactionRepository.getHistoryUsingByUserId(user.getUserId());
     }
 
     @Override
-    public List<UserOrder> getAllOrdersForUserById(int userId) {
-        List<Subscription> presentSubscription = subscriptionRepository.getActualSubscriptionsForUser(userId);
+    public List<UserOrder> getAllOrdersForUserByEmail(String email) {
+        User user = userRepository.findUserByEmail(email);
+        List<Subscription> presentSubscription = subscriptionRepository.getActualSubscriptionsForUser(user.getUserId());
         if (!presentSubscription.isEmpty()) {
-            return autoOrderRepository.getAllOrdersForUserById(userId);
+            return autoOrderRepository.getAllOrdersForUserById(user.getUserId());
         } else {
             return null;
         }
@@ -137,8 +142,8 @@ public class UserServiceImpl implements UserService {
         return userRepository.findById(userId).orElse(null);
     }
 
-    public byte[] getUserPhoto(String userName) {
-        String photoPath = userRepository.findUserByEmail(userName).getPhoto();
+    public byte[] getUserPhoto(String email) {
+        String photoPath = userRepository.findUserByEmail(email).getPhoto();
         if (photoPath != null) {
             try {
                 Path path = Paths.get(photoPath);
@@ -180,8 +185,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteUser(int userId) {
-        userRepository.deleteById(userId);
+    public void deleteUser(String email) {
+        User user = userRepository.findUserByEmail(email);
+        userRepository.deleteById(user.getUserId());
     }
 
     @Override
@@ -190,8 +196,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean hasActualSubscription(int userId) {
-        return subscriptionRepository.getActualSubscriptionsForUser(userId).isEmpty();
+    public boolean hasActualSubscription(String email) {
+        User user = userRepository.findUserByEmail(email);
+        return !subscriptionRepository.getActualSubscriptionsForUser(user.getUserId()).isEmpty();
     }
 
     public void addTransaction(Transaction transaction) {

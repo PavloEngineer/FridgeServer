@@ -10,6 +10,7 @@ import com.system.fridges.service.FridgeServiceImpl;
 import com.system.fridges.service.utils.Constants;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,22 +22,19 @@ public class FridgeController {
     @Autowired
     private FridgeServiceImpl fridgeService;
 
-    @Autowired
-    private HttpSession session;
-
-    @GetMapping("/foodInside")
-    public List<FoodInFridge> getAllFood(int fridgeId) {
-        return fridgeService.getFoodInFridgeById(fridgeId);
+    @GetMapping("/foodInside/{email}")
+    public ResponseEntity<List<FoodInFridge>> getAllFood(int fridgeId) {
+        return ResponseEntity.ok(fridgeService.getFoodInFridgeById(fridgeId));
     }
 
-    @GetMapping("/autoOrdering")
-    public List<FridgeOrder> getAutoOrdering(int fridgeId) {
-        return fridgeService.getAutoOrdersById(fridgeId, (Integer) session.getAttribute(Constants.USER_ID));
+    @GetMapping("/autoOrdering/{email}")
+    public ResponseEntity<List<FridgeOrder>> getAutoOrdering(int fridgeId, @PathVariable String email) {
+        return ResponseEntity.ok(fridgeService.getAutoOrdersById(fridgeId, email));
     }
 
     @GetMapping("/transactions")
-    public List<FridgeTransactionHistory> getTransactionHistories(int fridgeId) {
-        return fridgeService.getTransactionHistoryById(fridgeId);
+    public ResponseEntity<List<FridgeTransactionHistory>> getTransactionHistories(int fridgeId) {
+        return ResponseEntity.ok(fridgeService.getTransactionHistoryById(fridgeId));
     }
 
     @PostMapping("/inventory")

@@ -16,9 +16,6 @@ public class PaymentController {
     @Autowired
     private StripeService stripeService;
 
-    @Autowired
-    private HttpSession session;
-
     @PostMapping("/card/token")
     @ResponseBody
     public StripeToken createPaymentToken(@RequestBody StripeToken model) {
@@ -34,7 +31,7 @@ public class PaymentController {
     @ResponseBody
     public StripeCharge charge(@RequestBody StripeCharge model) {
         try {
-            return stripeService.charge(model, (Integer) session.getAttribute(Constants.USER_ID));
+            return stripeService.charge(model, model.username);
         } catch (StripeException e) {
             System.out.print(e.getMessage());
         }

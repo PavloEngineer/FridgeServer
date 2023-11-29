@@ -16,12 +16,6 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("/authentication")
 public class AuthController {
 
-//    @Autowired
-//    private HttpSession session;
-
-//    @Autowired
-//    private AuthenticationManager authenticationManager;
-
     @Autowired
     private UserServiceImpl userService;
 
@@ -39,45 +33,6 @@ public class AuthController {
         return ResponseEntity.ok(authenticationService.refreshToken(refreshTokenRequest));
     }
 
-//        @GetMapping("/login")
-//        public ResponseEntity<String> login(String email,
-//                String password,
-//                HttpServletRequest request) {
-//            email = "pasakan2@gmail.com";
-//            password = "1234";
-//
-//            // Створення автентифікаційного об'єкта
-//            Authentication authentication = new UsernamePasswordAuthenticationToken(email, password);
-//
-//            // Виклик AuthenticationManager для автентифікації
-//            Authentication authenticated = authenticationManager.authenticate(authentication);
-//
-//            // Встановлення автентифікованого користувача в SecurityContext
-//            SecurityContextHolder.getContext().setAuthentication(authenticated);
-//
-//            // Створення токену та додавання його до відповіді
-//            String token = "123456789P";
-//            HttpHeaders headers = new HttpHeaders();
-//            headers.add("Authorization", "Bearer " + token);
-//
-//            session.setAttribute("userEmail", email);
-//
-//            // Визначення типу користувача
-//            User user = userService.findUserByEmail(email);
-//            UserType typeUser = user.getType();
-//
-//            // Перенаправлення на сторінку після успішної автентифікації
-//            if (typeUser.equals(UserType.REGULAR_USER)) {
-//                System.out.print(ResponseEntity.ok().headers(headers).body("/user/account"));
-//                return ResponseEntity.ok().headers(headers).body("/user/account");
-//            } else if (typeUser.equals(UserType.ADMIN_TYPE1)) {
-//                return ResponseEntity.ok().headers(headers).body("/admin");
-//            } else if (typeUser.equals(UserType.ADMIN_TYPE2)) {
-//                return ResponseEntity.ok().headers(headers).body("/admin");
-//            } else {
-//                return ResponseEntity.ok().headers(headers).body("/authentication");
-//            }
-//        }
 
     @PostMapping("/register")
     public void registerUser(@RequestBody User user, @RequestParam("file") MultipartFile file) {

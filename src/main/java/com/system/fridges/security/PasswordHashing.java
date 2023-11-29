@@ -9,8 +9,4 @@ public class PasswordHashing {
     public String encodePassword(String password) {
         return passwordEncoder.encode(password);
     }
-
-    public boolean isSamePassword(String password, String passwordHash) {
-        return passwordEncoder.matches(password, passwordHash);
-    }
 }

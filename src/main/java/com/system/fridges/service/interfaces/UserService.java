@@ -16,17 +16,17 @@ public interface UserService {
 
     void saveUser(User user, MultipartFile file);
 
-    void deleteUser(int userId);
+    void deleteUser(String userName);
 
-    List<Fridge> getFridgesByUserId(int userId);
+    List<Fridge> getFridgesByUserEmail(String email);
 
-    List<UserFood> getAllFoodUserById(int userId);
+    List<UserFood> getAllFoodUserByEmail(String email);
 
-    List<UserTransactionHistory> getTransactionHistoryByUserId(int userId);
+    List<UserTransactionHistory> getTransactionHistoryByEmail(String email);
 
-    List<UserOrder> getAllOrdersForUserById(int userId);
+    List<UserOrder> getAllOrdersForUserByEmail(String email);
 
      User findUserByEmail(String email);
 
-     boolean hasActualSubscription(int userId);
+     boolean hasActualSubscription(String email);
 }

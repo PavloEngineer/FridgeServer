@@ -26,7 +26,7 @@ public interface FridgeService {
 
     List<FridgeTransactionHistory> getTransactionHistoryById(int fridgeId);
 
-    List<FridgeOrder> getAutoOrdersById(int fridgeId, int userId);
+    List<FridgeOrder> getAutoOrdersById(int fridgeId, String email);
 
     void addAutoOrders(List<AutoOrder> orders);
 

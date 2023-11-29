@@ -56,8 +56,8 @@ public class StripeService {
         return model;
     }
 
-    public StripeCharge charge(StripeCharge chargeRequest, int userId) throws StripeException {
-        Subscription subscription = new Subscription(Date.valueOf(LocalDate.now()),Date.valueOf(LocalDate.now().plusMonths(6)), 100, userRepository.findById(userId).get());
+    public StripeCharge charge(StripeCharge chargeRequest, String userEmail) throws StripeException {
+        Subscription subscription = new Subscription(Date.valueOf(LocalDate.now()),Date.valueOf(LocalDate.now().plusMonths(6)), 100, userRepository.findUserByEmail(userEmail));
         subscriptionRepository.save(subscription);
 
         chargeRequest.success = false;

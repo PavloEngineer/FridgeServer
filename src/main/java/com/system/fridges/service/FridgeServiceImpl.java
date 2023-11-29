@@ -82,7 +82,8 @@ public class FridgeServiceImpl implements FridgeService {
     }
 
     @Override
-    public List<FridgeOrder> getAutoOrdersById(int fridgeId, int userId) {
+    public List<FridgeOrder> getAutoOrdersById(int fridgeId, String email) {
+        int userId = userRepository.findUserByEmail(email).getUserId();
         if (!subscriptionRepository.getActualSubscriptionsForUser(userId).isEmpty()) {
             return autoOrderRepository.getInfoOrdersForFridgeById(fridgeId);
         } else {

@@ -5,9 +5,13 @@ import com.system.fridges.models.*;
 import com.system.fridges.models.transferObjects.fridgeObjects.FridgeSpending;
 import com.system.fridges.repositories.*;
 import com.system.fridges.service.interfaces.AdminService;
+import com.system.fridges.service.utils.DatabaseManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 import java.util.List;
 
 @Service
@@ -43,6 +47,21 @@ public class AdminServiceImpl implements AdminService {
     @Autowired
     private ProductRepository productRepository;
 
+    @Override
+    public boolean doBackupDatabase(String backupPathHash) {
+        byte[] decodedBytes = Base64.getDecoder().decode(backupPathHash);
+        String backupPathDecoded = new String(decodedBytes, StandardCharsets.UTF_8);
+        DatabaseManager databaseManager = new DatabaseManager();
+        return databaseManager.backupSuccessful(backupPathDecoded);
+    }
+
+    @Override
+    public boolean restoreDatabase(String backupPathHash) {
+        byte[] decodedBytes = Base64.getDecoder().decode(backupPathHash);
+        String backupPathDecoded = new String(decodedBytes, StandardCharsets.UTF_8);
+        DatabaseManager databaseManager = new DatabaseManager();
+        return databaseManager.restoreSuccessful(backupPathDecoded);
+    }
 
     @Override
     public List<FridgeSpending> getSpendingElectricity(float price, String nameCompany) {
