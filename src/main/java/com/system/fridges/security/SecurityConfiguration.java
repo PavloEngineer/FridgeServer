@@ -8,13 +8,18 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -26,32 +31,44 @@ import java.io.IOException;
 import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
+@EnableWebSecurity
 public class SecurityConfiguration  {
 
+    @Autowired
     private final UserServiceImpl userDetailsService;
 
-    @Bean
-    public JwtAuthenticationFilter jwtAuthenticationFilter() {
-        return new JwtAuthenticationFilter(); // Створіть свій фільтр для обробки токенів JWT
-    }
+    @Autowired
+    public JwtAuthenticationFilter jwtAuthenticationFilter;
+
 
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
+                .csrf(AbstractHttpConfigurer::disable)
                 .cors(withDefaults())
                 .authorizeHttpRequests(authorize -> authorize
-//                        .requestMatchers("/user/**").hasRole(UserType.REGULAR_USER.toString())
                         .requestMatchers("/user/**").hasRole(UserType.REGULAR_USER.toString())
                         .requestMatchers("/admin1/**").hasRole("ADMIN1")
                         .requestMatchers("/admin2/**").hasRole("ADMIN2")
                         .requestMatchers("/authentication/**").permitAll()
-//                        .anyRequest().permitAll()
+                        .anyRequest().permitAll()
                 )
-                .formLogin(withDefaults())
-                .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(customFilter(), JwtAuthenticationFilter.class)
+                .sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authenticationProvider(authenticationProvider()).addFilterBefore(
+                        jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class
+                )
+//                .formLogin(withDefaults())
+//                .addFilterBefore(customFilter(), JwtAuthenticationFilter.class)
                 .build();
+    }
+
+    @Bean
+    public AuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+        authProvider.setUserDetailsService(userDetailsService.userDetailsService());
+        authProvider.setPasswordEncoder(passwordEncoder());
+        return authProvider;
     }
 
     private OncePerRequestFilter customFilter() {

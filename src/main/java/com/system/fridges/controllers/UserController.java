@@ -10,6 +10,8 @@ import com.system.fridges.service.UserServiceImpl;
 import com.system.fridges.service.utils.Constants;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -26,19 +28,19 @@ public class UserController {
     private UserServiceImpl userService;
 
 
-    @PostMapping("/account/update")
-    public void updateUserAccount(@RequestBody User user, @RequestParam("file") MultipartFile file) {
-        userService.saveUser(user, file);
+    @PostMapping("/account/{userName}/update")
+    public void updateUserAccount(@PathVariable String userName, @RequestParam("file") MultipartFile file) {
+        userService.saveUser(userService.findUserByEmail(userName), file);
     }
 
-    @GetMapping("/account")
-    public User getPresentUser() {
-        return userService.findUserByEmail((String) session.getAttribute(Constants.USER_EMAIL));
+    @GetMapping("/account/{userName}")
+    public ResponseEntity<User> getPresentUser(@PathVariable String userName) {
+        return ResponseEntity.ok(userService.findUserByEmail(userName));
     }
 
-    @GetMapping("/photo")
-    public byte[]  getUserPhoto() {
-        return userService.getUserPhoto((Integer) session.getAttribute(Constants.USER_ID));
+    @GetMapping("/photo/{userName}")
+    public byte[]  getUserPhoto(@PathVariable String userName) {
+        return userService.getUserPhoto(userName);
     }
 
     @PostMapping("/account/delete")

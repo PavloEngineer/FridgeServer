@@ -4,6 +4,8 @@ import com.system.fridges.models.Fridge;
 import com.system.fridges.models.Subscription;
 import com.system.fridges.models.Transaction;
 import com.system.fridges.models.User;
+import com.system.fridges.models.transferObjects.JwtAuthenticationResponse;
+import com.system.fridges.models.transferObjects.userObjects.SignInRequest;
 import com.system.fridges.models.transferObjects.userObjects.UserTransactionHistory;
 import com.system.fridges.models.transferObjects.userObjects.UserFood;
 import com.system.fridges.models.transferObjects.userObjects.UserOrder;
@@ -12,6 +14,11 @@ import com.system.fridges.security.PasswordHashing;
 import com.system.fridges.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -21,6 +28,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
@@ -45,10 +54,52 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private SubscriptionRepository subscriptionRepository;
 
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private AuthenticationServiceImpl authenticationService;
+
     @Value("${upload.path}")
     private String uploadPath;
 
-    public UserServiceImpl() {
+    public UserServiceImpl() {}
+
+    public  UserDetailsService userDetailsService() {
+        return new UserDetailsService() {
+            @Override
+            public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+                User user = userRepository.findUserByEmail(username);
+                if (user == null) {
+                    throw new UsernameNotFoundException("User not found with username: " + username);
+                }
+                return new org.springframework.security.core.userdetails.User(
+                        user.getEmail(),
+                        user.getHashPassword(),
+                        // Тут ви можете вказати ролі користувача. Наприклад, якщо у вас є поле roles у класі User:
+                        // user.getRoles().stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList())
+                        // Де roles - це колекція ролей користувача.
+                        Collections.emptyList()
+                );
+            }
+        };
+    }
+
+    public JwtAuthenticationResponse signIn(SignInRequest signInRequest) {
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+                signInRequest.getEmail(),
+                signInRequest.getPassword())
+        );
+
+        var user = userDetailsService().loadUserByUsername(signInRequest.getEmail());
+        var jwt = authenticationService.generationToken(user);
+        var refreshToken = authenticationService.generationRefreshToken(new HashMap<>(), user);
+
+        JwtAuthenticationResponse jwtAuthenticationResponse = new JwtAuthenticationResponse();
+
+        jwtAuthenticationResponse.setToken(jwt);
+        jwtAuthenticationResponse.setRefreshToken(refreshToken);
+        return jwtAuthenticationResponse;
     }
 
     @Override
@@ -86,8 +137,8 @@ public class UserServiceImpl implements UserService {
         return userRepository.findById(userId).orElse(null);
     }
 
-    public byte[] getUserPhoto(int userId) {
-        String photoPath = userRepository.findById(userId).get().getPhoto();
+    public byte[] getUserPhoto(String userName) {
+        String photoPath = userRepository.findUserByEmail(userName).getPhoto();
         if (photoPath != null) {
             try {
                 Path path = Paths.get(photoPath);
