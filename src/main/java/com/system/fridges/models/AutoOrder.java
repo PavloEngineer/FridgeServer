@@ -1,9 +1,37 @@
 package com.system.fridges.models;
 
 
+import com.system.fridges.models.transferObjects.foodObjects.FoodInFridge;
+import com.system.fridges.models.transferObjects.fridgeObjects.FridgeOrder;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.Date;
+
+@NamedNativeQuery(
+        name = "FridgeOrderQuery",
+        query =
+                "SELECT ar.order_id as order_id, ar.date_delivery as date_delivery, us.name as name, us.surname as surname, us.patronymic as patronymic, us.email as email FROM auto_order as ar " +
+                        "LEFT JOIN access as ac ON ar.access_order = ac.access_id " +
+                        "LEFT JOIN user as us ON ac.user_access = us.user_id where ac.fridge_access = :fridgeId",
+        resultSetMapping = "FridgeOrderMapping"
+)
+@SqlResultSetMapping(
+        name = "FridgeOrderMapping",
+        classes = @ConstructorResult(
+                targetClass = FridgeOrder.class,
+                columns = {
+                        @ColumnResult(name = "order_id", type = String.class),
+                        @ColumnResult(name = "date_delivery", type = Integer.class),
+                        @ColumnResult(name = "name", type = Date.class),
+                        @ColumnResult(name = "name", type = String.class),
+                        @ColumnResult(name = "surname", type = String.class),
+                        @ColumnResult(name = "patronymic", type = String.class),
+                        @ColumnResult(name = "email", type = String.class)
+                }
+        )
+)
+
 
 @Entity
 @Table(name = "auto_order")
@@ -21,12 +49,10 @@ public class AutoOrder {
     private int number;
 
     @ManyToOne
-    //@Column(name = "access_order", nullable = false)
     @JoinColumn(name = "access_order", nullable = false)
     private Access  access;
 
     @ManyToOne
-    //@Column(name = "product_id", nullable = false)
     @JoinColumn(name = "product_id", nullable = false)
     private Product  product;
 

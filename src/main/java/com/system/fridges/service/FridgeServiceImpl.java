@@ -14,8 +14,10 @@ import com.system.fridges.service.utils.Delivety;
 import com.system.fridges.service.utils.EmailSender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -39,7 +41,8 @@ public class FridgeServiceImpl implements FridgeService {
     @Autowired
     private UserRepository userRepository;
 
-    private EmailSender emailSender;
+
+    private EmailSender emailSender = new EmailSender();
 
     @Override
     public List<Fridge> getFridgesByUserId(int userId) {
@@ -83,25 +86,17 @@ public class FridgeServiceImpl implements FridgeService {
 
     @Override
     public List<FridgeOrder> getAutoOrdersById(int fridgeId, String email) {
-        int userId = userRepository.findUserByEmail(email).getUserId();
-        if (!subscriptionRepository.getActualSubscriptionsForUser(userId).isEmpty()) {
+        User user = userRepository.findUserByEmail(email).orElse(null);
+        if (user != null &&
+                !subscriptionRepository.getActualSubscriptionsForUser(user.getUserId()).isEmpty()) {
             return autoOrderRepository.getInfoOrdersForFridgeById(fridgeId);
         } else {
-            return null;
+            return Collections.emptyList();
         }
     }
 
     @Override
-    public void addAutoOrders(List<AutoOrder> orders) {
-        autoOrderRepository.saveAll(orders);
-    }
-
-    public void addFood(List<Food> food) {
-        foodRepository.saveAll(food);
-    }
-
-    @Override
-    public void doInventoryForFridge(int fridgeId) {
+    public void doInventoryForFridge(Integer fridgeId) {
         Fridge fridge = fridgeRepository.findById(fridgeId).get();
         List<SpoiledFood> spoiledFoodsInFridge = foodRepository.getSpoiledFoodByFridgeId(fridge.getFridgeId());
         sendEmailEveryOwnerFood(spoiledFoodsInFridge);
@@ -112,10 +107,10 @@ public class FridgeServiceImpl implements FridgeService {
         String bodyMessage;
         try {
             for (SpoiledFood spoiledFood : spoiledFoodsInFridge) {
-                user = userRepository.findById(spoiledFood.user_access).get();
-                bodyMessage = "Your food:" + spoiledFood.name + ", " +
-                        spoiledFood.date_validity + ", " + spoiledFood.number_boxes +
-                        ", date transaction:" + spoiledFood.end_date + " is spoiled. Please, get rid of this food";
+                user = userRepository.findById(spoiledFood.getUserAccess()).get();
+                bodyMessage = "Your food:" + spoiledFood.getName() + ", Date validity:" +
+                        spoiledFood.getDateValidity() + ", amount: " + spoiledFood.getNumberBoxes() +
+                        ", date transaction:" + spoiledFood.getEndDate() + " is spoiled. Please, get rid of this food";
                 emailSender.sendEmail(user.getEmail(), bodyMessage);
             }
         } catch (Exception e) {
@@ -138,6 +133,4 @@ public class FridgeServiceImpl implements FridgeService {
             }
         }
     }
-
-
 }

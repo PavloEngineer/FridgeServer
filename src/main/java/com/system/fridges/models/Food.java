@@ -1,9 +1,62 @@
 package com.system.fridges.models;
 
 
+import com.system.fridges.models.transferObjects.foodObjects.FoodInFridge;
+import com.system.fridges.models.transferObjects.foodObjects.SpoiledFood;
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
 import java.util.Date;
+
+@NamedNativeQuery(
+        name = "FoodInFridgeQuery",
+        query =
+                "SELECT f.name as name, f.number_boxes as number_boxes, f.date_validity as date_validity, t.end_date as end_date, us.name as user_name, us.surname as surname, us.patronymic as patronymic, us.email as email " +
+                        "FROM food as f LEFT JOIN transaction as t  ON f.transaction_id = t.transaction_id " +
+                        "LEFT JOIN access as ac ON ac.access_id = t.access  LEFT JOIN user as us ON us.user_id = ac.user_access " +
+                        "WHERE ac.fridge_access = :fridgeId",
+        resultSetMapping = "FoodInFridgeMapping"
+)
+@SqlResultSetMapping(
+        name = "FoodInFridgeMapping",
+        classes = @ConstructorResult(
+                targetClass = FoodInFridge.class,
+                columns = {
+                        @ColumnResult(name = "name", type = String.class),
+                        @ColumnResult(name = "number_boxes", type = Integer.class),
+                        @ColumnResult(name = "date_validity", type = Date.class),
+                        @ColumnResult(name = "end_date", type = LocalDateTime.class),
+                        @ColumnResult(name = "user_name", type = String.class),
+                        @ColumnResult(name = "surname", type = String.class),
+                        @ColumnResult(name = "patronymic", type = String.class),
+                        @ColumnResult(name = "email", type = String.class)
+                }
+        )
+)
+
+
+@NamedNativeQuery(
+        name = "SpoiledFoodQuery",
+        query =
+                "SELECT f.name, f.number_boxes, f.date_validity, t.end_date, ac.user_access " +
+                        "FROM food as f LEFT JOIN transaction as t  ON f.transaction_id = t.transaction_id " +
+                        "LEFT JOIN access as ac ON ac.access_id = t.access " +
+                        "WHERE ac.fridge_access = :fridgeId AND f.date_validity < current_date()",
+        resultSetMapping = "SpoiledFoodMapping"
+)
+@SqlResultSetMapping(
+        name = "SpoiledFoodMapping",
+        classes = @ConstructorResult(
+                targetClass = SpoiledFood.class,
+                columns = {
+                        @ColumnResult(name = "name", type = String.class),
+                        @ColumnResult(name = "number_boxes", type = Integer.class),
+                        @ColumnResult(name = "date_validity", type = Date.class),
+                        @ColumnResult(name = "end_date", type = LocalDateTime.class),
+                        @ColumnResult(name = "user_access", type = Integer.class)
+                }
+        )
+)
 
 @Entity
 @Table(name = "food")
@@ -24,7 +77,6 @@ public class Food {
     private String name;
 
     @ManyToOne
-    //@Column(name = "transaction_id", nullable = false)
     @JoinColumn(name = "transaction_id", nullable = false)
     private Transaction  transaction;
 

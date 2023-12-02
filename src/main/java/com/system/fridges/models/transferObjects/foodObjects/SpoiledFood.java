@@ -1,22 +1,28 @@
 package com.system.fridges.models.transferObjects.foodObjects;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
 import java.time.LocalDateTime;
 import java.util.Date;
 
+@Data
+@AllArgsConstructor
 public class SpoiledFood {
 
-    public String name;
-    public int number_boxes;
-    public Date date_validity;
+    @JsonProperty("name")
+    private String name;
 
-    public LocalDateTime end_date;
-    public int user_access;
+    @JsonProperty("number_boxes")
+    private int numberBoxes;
 
-    public SpoiledFood(String foodName, int numberBoxes, Date dateValidity, LocalDateTime transactionEndDate, int userAccess) {
-        this.name = foodName;
-        this.number_boxes = numberBoxes;
-        this.date_validity = dateValidity;
-        this.end_date = transactionEndDate;
-        this.user_access = userAccess;
-    }
+    @JsonProperty("date_validity")
+    private Date dateValidity;
+
+    @JsonProperty("end_date")
+    private LocalDateTime endDate;
+
+    @JsonProperty("user_access")
+    private int userAccess;
 }

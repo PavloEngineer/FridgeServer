@@ -74,7 +74,7 @@ public class BusinessAdminController {
         return ResponseEntity.ok(adminService.getAllFood());
     }
 
-    @GetMapping("/transaction")
+    @GetMapping("/allTransaction")
     public ResponseEntity<List<Transaction>> getAllTransaction() {
         return ResponseEntity.ok(adminService.getAllTransaction());
     }

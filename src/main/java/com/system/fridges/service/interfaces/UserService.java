@@ -12,7 +12,8 @@ import java.util.List;
 public interface UserService {
 
     List<User> getAllUsers();
-    User getUserById(int userId);
+
+    User getUserById(Integer userId);
 
     void saveUser(User user, MultipartFile file);
 

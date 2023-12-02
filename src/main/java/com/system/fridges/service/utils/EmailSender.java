@@ -4,15 +4,20 @@ import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
+
+import java.util.Properties;
 
 public class EmailSender {
 
     private static final  String subject = "Program controlling fridges";
-    @Autowired
-    private JavaMailSender javaMailSender;
+
+    private final JavaMailSenderImpl javaMailSender = new JavaMailSenderImpl();
 
     public void sendEmail(String to, String body) throws MessagingException {
+        connectEmailSender();
+
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
 
@@ -21,5 +26,14 @@ public class EmailSender {
         helper.setText(body);
 
         javaMailSender.send(mimeMessage);
+    }
+
+    private void connectEmailSender() {
+        javaMailSender.setHost("smtp.gmail.com");
+        javaMailSender.setPort(587);
+        javaMailSender.setUsername("ukrainigromadanin284@gmail.com");
+        javaMailSender.setPassword("mmniqeveixmprktj");
+        Properties props = javaMailSender.getJavaMailProperties();
+        props.put("mail.smtp.starttls.enable", "true");
     }
 }

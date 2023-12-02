@@ -1,9 +1,36 @@
 package com.system.fridges.models;
 
 
+import com.system.fridges.models.transferObjects.fridgeObjects.FridgeOrder;
+import com.system.fridges.models.transferObjects.fridgeObjects.FridgeTransactionHistory;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.Date;
+
+
+@NamedNativeQuery(
+        name = "FridgeTransactionHistoryQuery",
+        query =
+                "SELECT end_date, u.name, u.surname, u.patronymic, u.email  " +
+                        "FROM transaction as t LEFT JOIN access as ac ON t.access = ac.access_id " +
+                        "LEFT JOIN user as u ON ac.user_access = u.user_id WHERE ac.fridge_access = :fridgeId",
+        resultSetMapping = "FridgeTransactionHistoryMapping"
+)
+@SqlResultSetMapping(
+        name = "FridgeTransactionHistoryMapping",
+        classes = @ConstructorResult(
+                targetClass = FridgeTransactionHistory.class,
+                columns = {
+                        @ColumnResult(name = "end_date", type = LocalDateTime.class),
+                        @ColumnResult(name = "name", type = String.class),
+                        @ColumnResult(name = "surname", type = String.class),
+                        @ColumnResult(name = "patronymic", type = String.class),
+                        @ColumnResult(name = "email", type = String.class)
+                }
+        )
+)
+
 
 @Entity
 @Table(name = "transaction")

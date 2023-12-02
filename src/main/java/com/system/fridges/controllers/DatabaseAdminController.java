@@ -126,12 +126,12 @@ public class DatabaseAdminController {
         adminService.addTransaction(transaction);
     }
 
-    @PostMapping("/deleteUser")
+    @PostMapping("/deleteUsers")
     public void deleteUser(@RequestBody List<Integer> user) {
         adminService.deleteUser(user);
     }
 
-    @PostMapping("/deleteFridge")
+    @PostMapping("/deleteFridges")
     public void deleteFridge(@RequestBody List<Integer> fridge) {
         adminService.deleteFridge(fridge);
     }
@@ -175,5 +175,4 @@ public class DatabaseAdminController {
     public void deleteTransaction(@RequestBody List<Integer> transaction) {
         adminService.deleteTransaction(transaction);
     }
-
 }

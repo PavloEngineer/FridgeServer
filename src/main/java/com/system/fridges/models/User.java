@@ -2,6 +2,8 @@ package com.system.fridges.models;
 import com.system.fridges.models.enam.UserType;
 import jakarta.persistence.*;
 
+import java.util.Random;
+
 
 @Entity
 @Table(name = "user")

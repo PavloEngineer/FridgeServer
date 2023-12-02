@@ -1,23 +1,27 @@
 package com.system.fridges.models.transferObjects.fridgeObjects;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
 import java.time.LocalDateTime;
 
+@Data
+@AllArgsConstructor
 public class FridgeTransactionHistory {
 
-    public LocalDateTime end_date;
+    @JsonProperty("end_date")
+    private LocalDateTime endDate;
 
-    public String name;
-    public String surname;
-    public String patronymic;
+    @JsonProperty("name")
+    private String name;
 
-    public String email;
+    @JsonProperty("surname")
+    private String surname;
 
-    public FridgeTransactionHistory(LocalDateTime endDate, String userName, String userSurname, String userPatronymic, String userEmail) {
-        this.end_date = endDate;
-        this.name = userName;
-        this.surname = userSurname;
-        this.patronymic = userPatronymic;
-        this.email = userEmail;
-    }
+    @JsonProperty("patronymic")
+    private String patronymic;
 
+    @JsonProperty("email")
+    private String email;
 }

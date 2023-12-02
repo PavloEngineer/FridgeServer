@@ -36,7 +36,6 @@ public class AuthController {
 
     @PostMapping("/register")
     public void registerUser(@RequestBody User user, @RequestParam("file") MultipartFile file) {
-        UserServiceImpl userService = new UserServiceImpl();
         userService.saveUser(user, file);
     }
 }

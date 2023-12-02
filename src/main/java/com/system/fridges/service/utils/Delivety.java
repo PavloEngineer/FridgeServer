@@ -15,12 +15,13 @@ public class Delivety {
     private String delivetyApiUrl; // Додаємо в application.properties або application.yml delivety.api.url=https://api.delivety.com/orders
 
     public void doAutoOrdering(AutoOrderRequest autoOrderRequest) {
+            autoOrderRequest.access_token = "yUk2EzNE3MLzYuyTnEK3N4zc";
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
 
             HttpEntity<AutoOrderRequest> request = new HttpEntity<>(autoOrderRequest, headers);
 
             RestTemplate restTemplate = new RestTemplate();
-            restTemplate.postForObject(delivetyApiUrl, request, String.class);
+            restTemplate.postForObject("http://smart2.delivety.com/hooks/catch/bx3sl8kl43", request, String.class);
     }
 }

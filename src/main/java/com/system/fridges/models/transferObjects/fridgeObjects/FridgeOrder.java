@@ -1,24 +1,32 @@
 package com.system.fridges.models.transferObjects.fridgeObjects;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import org.springframework.data.jpa.repository.Query;
+
 import java.time.LocalDateTime;
 
+
+@Data
+@AllArgsConstructor
 public class FridgeOrder {
 
-    public int order_id;
+    @JsonProperty("order_id")
+    private int order_id;
 
-    public LocalDateTime date_delivery;
-    public String name;
-    public String surname;
-    public String patronymic;
+    @JsonProperty("date_delivery")
+    private LocalDateTime date_delivery;
 
-    public String email;
+    @JsonProperty("name")
+    private String name;
 
-    public FridgeOrder(int orderId, LocalDateTime dateDelivery, String userName, String userSurname, String userPatronymic, String userEmail) {
-        this.order_id = orderId;
-        this.date_delivery = dateDelivery;
-        this.name = userName;
-        this.surname = userSurname;
-        this.patronymic = userPatronymic;
-        this.email = userEmail;
-    }
+    @JsonProperty("surname")
+    private String surname;
+
+    @JsonProperty("patronymic")
+    private String patronymic;
+
+    @JsonProperty("email")
+    private String email;
 }

@@ -1,9 +1,6 @@
 package com.system.fridges.service;
 
-import com.system.fridges.models.Fridge;
-import com.system.fridges.models.Subscription;
-import com.system.fridges.models.Transaction;
-import com.system.fridges.models.User;
+import com.system.fridges.models.*;
 import com.system.fridges.models.transferObjects.JwtAuthenticationResponse;
 import com.system.fridges.models.transferObjects.userObjects.SignInRequest;
 import com.system.fridges.models.transferObjects.userObjects.UserTransactionHistory;
@@ -21,6 +18,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileCopyUtils;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -60,8 +59,8 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private AuthenticationServiceImpl authenticationService;
 
-    @Value("${upload.path}")
-    private String uploadPath;
+
+    private String uploadPath = "/fridges/img";
 
     public UserServiceImpl() {}
 
@@ -69,7 +68,7 @@ public class UserServiceImpl implements UserService {
         return new UserDetailsService() {
             @Override
             public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-                User user = userRepository.findUserByEmail(username);
+                User user = userRepository.findUserByEmail(username).orElse(null);
                 if (user == null) {
                     throw new UsernameNotFoundException("User not found with username: " + username);
                 }
@@ -105,25 +104,25 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<Fridge> getFridgesByUserEmail(String email) {
-        User user = userRepository.findUserByEmail(email);
+        User user = userRepository.findUserByEmail(email).orElse(new User());
         return fridgeRepository.getFridgesByUserId(user.getUserId());
     }
 
     @Override
     public List<UserFood> getAllFoodUserByEmail(String email) {
-        User user = userRepository.findUserByEmail(email);
+        User user = userRepository.findUserByEmail(email).orElse(new User());
         return foodRepository.getAllFoodUserById(user.getUserId());
     }
 
     @Override
     public List<UserTransactionHistory> getTransactionHistoryByEmail(String email) {
-        User user = userRepository.findUserByEmail(email);
+        User user = userRepository.findUserByEmail(email).orElse(new User());
         return transactionRepository.getHistoryUsingByUserId(user.getUserId());
     }
 
     @Override
     public List<UserOrder> getAllOrdersForUserByEmail(String email) {
-        User user = userRepository.findUserByEmail(email);
+        User user = userRepository.findUserByEmail(email).orElse(new User());
         List<Subscription> presentSubscription = subscriptionRepository.getActualSubscriptionsForUser(user.getUserId());
         if (!presentSubscription.isEmpty()) {
             return autoOrderRepository.getAllOrdersForUserById(user.getUserId());
@@ -138,12 +137,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUserById(int userId) {
+    public User getUserById(Integer userId) {
         return userRepository.findById(userId).orElse(null);
     }
 
     public byte[] getUserPhoto(String email) {
-        String photoPath = userRepository.findUserByEmail(email).getPhoto();
+        String photoPath = userRepository.findUserByEmail(email).orElse(new User()).getPhoto();
         if (photoPath != null) {
             try {
                 Path path = Paths.get(photoPath);
@@ -164,7 +163,7 @@ public class UserServiceImpl implements UserService {
     }
 
     private String getPathAndSavePhoto(MultipartFile file) {
-        if (file == null) return null;
+        if (file == null || file.isEmpty() || file.getOriginalFilename() == null) return "";
         try {
             // Отримати шлях до теки проекту
 
@@ -186,22 +185,30 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteUser(String email) {
-        User user = userRepository.findUserByEmail(email);
+        User user = userRepository.findUserByEmail(email).orElse(new User());
         userRepository.deleteById(user.getUserId());
     }
 
     @Override
     public User findUserByEmail(String email) {
-        return userRepository.findUserByEmail(email);
+        return userRepository.findUserByEmail(email).orElse(new User());
     }
 
     @Override
     public boolean hasActualSubscription(String email) {
-        User user = userRepository.findUserByEmail(email);
+        User user = userRepository.findUserByEmail(email).orElse(new User());
         return !subscriptionRepository.getActualSubscriptionsForUser(user.getUserId()).isEmpty();
     }
 
     public void addTransaction(Transaction transaction) {
         transactionRepository.save(transaction);
+    }
+
+    public void addAutoOrders(List<AutoOrder> orders) {
+        autoOrderRepository.saveAll(orders);
+    }
+
+    public void addFood(List<Food> food) {
+        foodRepository.saveAll(food);
     }
 }

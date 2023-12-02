@@ -92,4 +92,9 @@ public class Office {
     public void setNameCompany(String nameCompany) {
         this.nameCompany = nameCompany;
     }
+
+    @Override
+    public String toString() {
+        return getCity() + " " + getDistrict() + " " + getStreet() + " " + getHouseNumber();
+    }
 }

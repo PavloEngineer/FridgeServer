@@ -1,19 +1,24 @@
 package com.system.fridges.models.transferObjects;
 
 import com.system.fridges.models.AutoOrder;
-import com.system.fridges.models.Product;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class AutoOrderRequest {
 
+
+    public String access_token;
+
     public String phone;
+
     public String id;
     public String first_name;
+
     public String email;
     public String address;
     public String delivery_date;
+
     public List<ProductRequest> product;
 
     public AutoOrderRequest(AutoOrder autoOrder) {
@@ -30,7 +35,7 @@ public class AutoOrderRequest {
         List<ProductRequest> productRequests = new ArrayList<>();
         ProductRequest productRequest = new ProductRequest();
         productRequest.id = autoOrder.getProduct().getProductId();
-        productRequest.number = autoOrder.getNumber();
+        productRequest.count = autoOrder.getNumber();
         productRequests.add(productRequest);
         return productRequests;
     }
@@ -39,7 +44,7 @@ public class AutoOrderRequest {
 class ProductRequest {
     public int id;
 
-    public int number;
+    public int count;
 
     public int price = 20;
 }

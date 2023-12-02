@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("*/fridge")
+@RequestMapping("/fridge")
 public class FridgeController {
 
     @Autowired
@@ -38,22 +38,12 @@ public class FridgeController {
     }
 
     @PostMapping("/inventory")
-    public void doInventory(int fridgeId) {
+    public void doInventory(@RequestBody Integer fridgeId) {
         fridgeService.doInventoryForFridge(fridgeId);
     }
 
     @PostMapping("/doAutoOrder")
-    public void doAutoOrder(int fridgeId) {
+    public void doAutoOrder(@RequestBody Integer fridgeId) {
         fridgeService.doAutoOrdering(fridgeId);
-    }
-
-    @PostMapping("/autoOrdering/addOrder")
-    public void addOrders(@RequestBody List<AutoOrder> orders) {
-        fridgeService.addAutoOrders(orders);
-    }
-
-    @PostMapping("/addFood")
-    public void addFood(@RequestBody List<Food> food) {
-        fridgeService.addFood(food);
     }
 }

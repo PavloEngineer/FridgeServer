@@ -1,8 +1,6 @@
 package com.system.fridges.controllers;
 
-import com.system.fridges.models.Fridge;
-import com.system.fridges.models.Transaction;
-import com.system.fridges.models.User;
+import com.system.fridges.models.*;
 import com.system.fridges.models.transferObjects.userObjects.UserFood;
 import com.system.fridges.models.transferObjects.userObjects.UserOrder;
 import com.system.fridges.models.transferObjects.userObjects.UserTransactionHistory;
@@ -70,6 +68,16 @@ public class UserController {
     @PostMapping("/addTransaction")
     public void addTransaction(@RequestBody Transaction transaction) {
         userService.addTransaction(transaction);
+    }
+
+    @PostMapping("/autoOrdering/addOrder")
+    public void addOrders(@RequestBody List<AutoOrder> orders) {
+        userService.addAutoOrders(orders);
+    }
+
+    @PostMapping("/addFood")
+    public void addFood(@RequestBody List<Food> food) {
+        userService.addFood(food);
     }
 
 }

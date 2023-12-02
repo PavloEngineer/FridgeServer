@@ -1,19 +1,22 @@
 package com.system.fridges.models.transferObjects.stripeObjects;
 
+import lombok.Data;
+
+@Data
 public class StripeToken {
 
-    public String cardNumber;
+    private String cardNumber;
 
-    public String expMonth;
+    private String expMonth;
 
-    public String expYear;
+    private String expYear;
 
-    public String cvv;
+    private String cvv;
 
-    public String token;
+    private String token;
 
-    public String userName;
+    private String userName;
 
-    public boolean success;
+    private boolean success;
 
 }

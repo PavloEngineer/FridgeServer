@@ -43,9 +43,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Autowired
     private  AuthenticationServiceImpl authenticationService;
 
-//    @Autowired
-//    private UserServiceImpl userService;
-
     @Autowired
     private UserRepository userRepository;
 
@@ -131,7 +128,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         return new UserDetailsService() {
             @Override
             public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-                User user = userRepository.findUserByEmail(username);
+                User user = userRepository.findUserByEmail(username).orElse(null);
                 if (user == null) {
                     throw new UsernameNotFoundException("User not found with username: " + username);
                 }

@@ -19,15 +19,12 @@ public interface FoodRepository extends JpaRepository<Food, Integer> {
             "LEFT JOIN access as ac ON ac.access_id = t.access WHERE ac.user_access = :userId", nativeQuery = true)
     List<UserFood> getAllFoodUserById(@Param("userId") int userId);
 
-    @Query(value = "SELECT f.name, f.number_boxes, f.date_validity, t.end_date, ac.user_access " +
-            "FROM food as f LEFT JOIN transaction as t  ON f.transaction_id = t.transaction_id " +
-            "LEFT JOIN access as ac ON ac.access_id = t.access " +
-            "WHERE ac.fridge_access = :fridgeId AND f.date_validity < current_date()", nativeQuery = true)
+    @Query(nativeQuery = true, name = "SpoiledFoodQuery")
     List<SpoiledFood> getSpoiledFoodByFridgeId(@Param("fridgeId") int fridgeId);
 
-    @Query(value = "SELECT f.name, f.number_boxes, f.date_validity, t.end_date, us.name as user_name, us.surname, us.patronymic, us.email \n" +
-            "            FROM food as f LEFT JOIN transaction as t  ON f.transaction_id = t.transaction_id \n" +
-            "            LEFT JOIN access as ac ON ac.access_id = t.access  LEFT JOIN user as us ON us.user_id = ac.user_access\n" +
-            "            WHERE ac.fridge_access = :fridgeId", nativeQuery = true)
+    @Query(nativeQuery = true, name = "FoodInFridgeQuery")
     List<FoodInFridge> getAllFoodForFridge(@Param("fridgeId") int fridgeId);
+
 }
+
+

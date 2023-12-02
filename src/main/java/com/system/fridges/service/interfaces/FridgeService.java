@@ -28,9 +28,7 @@ public interface FridgeService {
 
     List<FridgeOrder> getAutoOrdersById(int fridgeId, String email);
 
-    void addAutoOrders(List<AutoOrder> orders);
-
-    void doInventoryForFridge(int fridgeId);
+    void doInventoryForFridge(Integer fridgeId);
 
     void doAutoOrdering(int fridgeId);
 

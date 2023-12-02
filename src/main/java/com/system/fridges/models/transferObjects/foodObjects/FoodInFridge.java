@@ -1,35 +1,44 @@
 package com.system.fridges.models.transferObjects.foodObjects;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
 import java.time.LocalDateTime;
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import org.hibernate.annotations.NamedNativeQuery;
+import org.springframework.beans.factory.annotation.Value;
+
+
+@Data
+@AllArgsConstructor
 public class FoodInFridge {
 
-    public String name;
+    @JsonProperty("name")
+    private String name;
 
-    public int number_boxes;
+    @JsonProperty("number_boxes")
+    private int numberBoxes;
 
-    public Date date_validity;
+    @JsonProperty("date_validity")
+    private Date dateValidity;
 
-    public LocalDateTime end_date;
+    @JsonProperty("end_date")
+    private LocalDateTime endDate;
 
-    public String user_name;
+    @JsonProperty("user_name")
+    private String userName;
 
-    public String surname;
+    @JsonProperty("surname")
+    private String surname;
 
-    public String patronymic;
+    @JsonProperty("patronymic")
+    private String patronymic;
 
-    public String email;
-
-    public FoodInFridge(String foodName, int numberBoxes, Date dateValidity, LocalDateTime transactionEndDate,
-                          String name, String userSurname, String userPatronymic, String userEmail) {
-        this.name = foodName;
-        this.number_boxes = numberBoxes;
-        this.date_validity = dateValidity;
-        this.end_date = transactionEndDate;
-        this.user_name = name;
-        this.surname = userSurname;
-        this.patronymic = userPatronymic;
-        this.email = userEmail;
-    }
+    @JsonProperty("email")
+    private String email;
 }
+

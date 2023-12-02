@@ -84,7 +84,7 @@
 		<dependency>
 			<groupId>com.stripe</groupId>
 			<artifactId>stripe-java</artifactId>
-			<version>19.42.0</version> <!-- Перевірте останню версію на сайті Stripe -->
+			<version>22.0.0</version> <!-- Перевірте останню версію на сайті Stripe -->
 		</dependency>
 
 		<dependency>

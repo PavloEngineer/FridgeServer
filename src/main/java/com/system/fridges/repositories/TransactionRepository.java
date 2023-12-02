@@ -17,8 +17,6 @@ public interface TransactionRepository extends JpaRepository<Transaction, Intege
             "LEFT JOIN access as ac ON t.access = ac.access_id WHERE ac.user_access = :userId", nativeQuery = true)
     List<UserTransactionHistory> getHistoryUsingByUserId(@Param("userId") int userId);
 
-    @Query(value = "SELECT end_date, u.name, u.surname, u.patronymic, u.email  " +
-            "FROM transaction as t LEFT JOIN access as ac ON t.access = ac.access_id " +
-            "LEFT JOIN user as u ON ac.user_access = u.user_id WHERE ac.fridge_access = :fridgeId", nativeQuery = true)
+    @Query(nativeQuery = true, name = "FridgeTransactionHistoryQuery")
     List<FridgeTransactionHistory> getHistoryUsingFridge(@Param("fridgeId") int fridgeId);
 }

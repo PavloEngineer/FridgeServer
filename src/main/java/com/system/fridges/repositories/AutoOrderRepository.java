@@ -13,9 +13,7 @@ import java.util.List;
 @Repository
 public interface AutoOrderRepository extends JpaRepository<AutoOrder, Integer> {
 
-    @Query(value = "SELECT ar.order_id, ar.date_delivery, us.name, us.surname, us.patronymic, us.email FROM auto_order as ar " +
-            "LEFT JOIN access as ac ON ar.access_order = ac.access_id " +
-            "LEFT JOIN user as us ON ac.user_access = us.user_id where ac.fridge_access = :fridgeId", nativeQuery = true)
+    @Query(nativeQuery = true, name = "FridgeOrderQuery")
     List<FridgeOrder> getInfoOrdersForFridgeById(@Param("fridgeId") int fridgeId);
 
     @Query(value = "SELECT ar.date_delivery, ar.number, ac.fridge_access, p.name, p.weight FROM auto_order as ar " +

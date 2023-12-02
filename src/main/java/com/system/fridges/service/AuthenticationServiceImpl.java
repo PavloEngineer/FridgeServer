@@ -35,7 +35,7 @@ public class AuthenticationServiceImpl {
 
     public boolean isTokenValid(String token, UserDetails userDetails) {
         String email = extractUserName(token);
-        User user = userRepository.findUserByEmail(userDetails.getUsername());
+        User user = userRepository.findUserByEmail(userDetails.getUsername()).orElse(null);
         return (email.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
 
@@ -91,7 +91,7 @@ public class AuthenticationServiceImpl {
     }
 
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findUserByEmail(username);
+        User user = userRepository.findUserByEmail(username).orElse(null);
         if (user == null) {
             throw new UsernameNotFoundException("User not found with username: " + username);
         }
