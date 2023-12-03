@@ -3,7 +3,6 @@ package com.system.fridges.models.transferObjects.fridgeObjects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.springframework.data.jpa.repository.Query;
 
 import java.time.LocalDateTime;
 
@@ -13,10 +12,10 @@ import java.time.LocalDateTime;
 public class FridgeOrder {
 
     @JsonProperty("order_id")
-    private int order_id;
+    private int orderId;
 
     @JsonProperty("date_delivery")
-    private LocalDateTime date_delivery;
+    private LocalDateTime dateDelivery;
 
     @JsonProperty("name")
     private String name;

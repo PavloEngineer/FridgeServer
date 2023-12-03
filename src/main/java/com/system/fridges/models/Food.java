@@ -3,6 +3,7 @@ package com.system.fridges.models;
 
 import com.system.fridges.models.transferObjects.foodObjects.FoodInFridge;
 import com.system.fridges.models.transferObjects.foodObjects.SpoiledFood;
+import com.system.fridges.models.transferObjects.userObjects.UserFood;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -54,6 +55,28 @@ import java.util.Date;
                         @ColumnResult(name = "date_validity", type = Date.class),
                         @ColumnResult(name = "end_date", type = LocalDateTime.class),
                         @ColumnResult(name = "user_access", type = Integer.class)
+                }
+        )
+)
+
+@NamedNativeQuery(
+        name = "UserFoodQuery",
+        query =
+                "SELECT f.name, f.number_boxes, f.date_validity, t.end_date, ac.fridge_access \n" +
+                        "            FROM food as f LEFT JOIN transaction as t  ON f.transaction_id = t.transaction_id\n" +
+                        "            LEFT JOIN access as ac ON ac.access_id = t.access WHERE ac.user_access = :userId",
+        resultSetMapping = "UserFoodMapping"
+)
+@SqlResultSetMapping(
+        name = "UserFoodMapping",
+        classes = @ConstructorResult(
+                targetClass = UserFood.class,
+                columns = {
+                        @ColumnResult(name = "name", type = String.class),
+                        @ColumnResult(name = "number_boxes", type = Integer.class),
+                        @ColumnResult(name = "date_validity", type = Date.class),
+                        @ColumnResult(name = "end_date", type = LocalDateTime.class),
+                        @ColumnResult(name = "fridge_access", type = Integer.class)
                 }
         )
 )

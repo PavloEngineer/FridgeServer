@@ -2,6 +2,8 @@ package com.system.fridges.controllers;
 
 
 import com.system.fridges.models.transferObjects.stripeObjects.StripeCharge;
+import com.system.fridges.models.transferObjects.stripeObjects.StripeRequest;
+import com.system.fridges.models.transferObjects.stripeObjects.StripeResponse;
 import com.system.fridges.models.transferObjects.stripeObjects.StripeToken;
 import com.system.fridges.service.StripeService;
 import org.junit.jupiter.api.Test;
@@ -26,22 +28,12 @@ public class PaymentControllerTest {
     private StripeService stripeService;
 
     @Test
-    public void testCreatePaymentToken() throws Exception {
-        StripeToken stripeToken = new StripeToken();
-        when(stripeService.createCardToken(stripeToken)).thenReturn(new StripeToken());
+    void createPaymentIntent() throws Exception {
+        StripeRequest stripeRequest = new StripeRequest();
+        stripeRequest.setEmail("pasakane990@gmail.com");
+        when(stripeService.createPaymentIntent(stripeRequest)).thenReturn(new StripeResponse());
 
-        ResponseEntity<StripeToken> responseEntity = paymentController.createPaymentToken(stripeToken);
-
-        assertNotNull(responseEntity.getBody());
-        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-    }
-
-    @Test
-    public void testCharge() throws Exception {
-        StripeCharge stripeCharge = new StripeCharge();
-        when(stripeService.charge(stripeCharge)).thenReturn(new StripeCharge());
-
-        ResponseEntity<StripeCharge> responseEntity = paymentController.charge(stripeCharge);
+        ResponseEntity<StripeResponse> responseEntity = paymentController.createPaymentIntent(stripeRequest);
 
         assertNotNull(responseEntity.getBody());
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());

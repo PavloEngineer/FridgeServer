@@ -1,6 +1,6 @@
 package com.system.fridges.controllers.functional;
 
-import com.stripe.model.Order;
+
 import com.system.fridges.models.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

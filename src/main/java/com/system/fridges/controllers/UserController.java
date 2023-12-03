@@ -80,4 +80,8 @@ public class UserController {
         userService.addFood(food);
     }
 
+    @PostMapping("/addSubscription")
+    public void addSubscription(@RequestBody Subscription subscription) {
+        userService.addSubscription(subscription);
+    }
 }

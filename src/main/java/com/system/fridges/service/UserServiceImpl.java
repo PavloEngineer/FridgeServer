@@ -200,7 +200,7 @@ public class UserServiceImpl implements UserService {
         return !subscriptionRepository.getActualSubscriptionsForUser(user.getUserId()).isEmpty();
     }
 
-    public void addTransaction(Transaction transaction) {
+    public void addTransaction(@RequestBody Transaction transaction) {
         transactionRepository.save(transaction);
     }
 
@@ -210,5 +210,9 @@ public class UserServiceImpl implements UserService {
 
     public void addFood(List<Food> food) {
         foodRepository.saveAll(food);
+    }
+
+    public void addSubscription(@RequestBody Subscription subscription) {
+        subscriptionRepository.save(subscription);
     }
 }

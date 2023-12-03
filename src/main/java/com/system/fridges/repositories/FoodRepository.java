@@ -14,9 +14,7 @@ import java.util.List;
 @Repository
 public interface FoodRepository extends JpaRepository<Food, Integer> {
 
-    @Query(value = "SELECT f.name, f.number_boxes, f.date_validity, t.end_date, ac.fridge_access " +
-            "FROM food as f LEFT JOIN transaction as t  ON f.transaction_id = t.transaction_id " +
-            "LEFT JOIN access as ac ON ac.access_id = t.access WHERE ac.user_access = :userId", nativeQuery = true)
+    @Query(name = "UserFoodQuery", nativeQuery = true)
     List<UserFood> getAllFoodUserById(@Param("userId") int userId);
 
     @Query(nativeQuery = true, name = "SpoiledFoodQuery")

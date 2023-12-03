@@ -13,8 +13,7 @@ import java.util.List;
 @Repository
 public interface TransactionRepository extends JpaRepository<Transaction, Integer> {
 
-    @Query(value = "SELECT end_date, fridge_access FROM transaction as t " +
-            "LEFT JOIN access as ac ON t.access = ac.access_id WHERE ac.user_access = :userId", nativeQuery = true)
+    @Query(name = "UserTransactionHistoryQuery", nativeQuery = true)
     List<UserTransactionHistory> getHistoryUsingByUserId(@Param("userId") int userId);
 
     @Query(nativeQuery = true, name = "FridgeTransactionHistoryQuery")

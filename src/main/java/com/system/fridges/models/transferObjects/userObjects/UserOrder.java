@@ -1,21 +1,28 @@
 package com.system.fridges.models.transferObjects.userObjects;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
 import java.time.LocalDateTime;
 
+@Data
+@AllArgsConstructor
 public class UserOrder {
 
-    public LocalDateTime date_delivery;
-    public String number;
-    public int fridge_access;
+    @JsonProperty("date_delivery")
+    private LocalDateTime dateDelivery;
 
-    public String name;
-    public double weight;
+    @JsonProperty("number")
+    private String number;
 
-    public UserOrder(LocalDateTime dateDelivery, String orderNumber, int fridgeAccess, String productName, double productWeight) {
-        this.date_delivery = dateDelivery;
-        this.number = orderNumber;
-        this.fridge_access = fridgeAccess;
-        this.name = productName;
-        this.weight = productWeight;
-    }
+    @JsonProperty("fridge_access")
+    private int fridgeAccess;
+
+    @JsonProperty("name")
+    private String name;
+
+    @JsonProperty("weight")
+    private double weight;
+
 }

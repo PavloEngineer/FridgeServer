@@ -3,6 +3,7 @@ package com.system.fridges.models;
 
 import com.system.fridges.models.transferObjects.fridgeObjects.FridgeOrder;
 import com.system.fridges.models.transferObjects.fridgeObjects.FridgeTransactionHistory;
+import com.system.fridges.models.transferObjects.userObjects.UserTransactionHistory;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -27,6 +28,24 @@ import java.util.Date;
                         @ColumnResult(name = "surname", type = String.class),
                         @ColumnResult(name = "patronymic", type = String.class),
                         @ColumnResult(name = "email", type = String.class)
+                }
+        )
+)
+
+@NamedNativeQuery(
+        name = "UserTransactionHistoryQuery",
+        query =
+                "SELECT end_date, fridge_access FROM transaction as t \n" +
+                        " LEFT JOIN access as ac ON t.access = ac.access_id WHERE ac.user_access = :userId",
+        resultSetMapping = "UserTransactionHistoryMapping"
+)
+@SqlResultSetMapping(
+        name = "UserTransactionHistoryMapping",
+        classes = @ConstructorResult(
+                targetClass = UserTransactionHistory.class,
+                columns = {
+                        @ColumnResult(name = "end_date", type = LocalDateTime.class),
+                        @ColumnResult(name = "fridge_access", type = Integer.class),
                 }
         )
 )

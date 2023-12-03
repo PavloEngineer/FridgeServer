@@ -3,6 +3,7 @@ package com.system.fridges.models;
 
 import com.system.fridges.models.transferObjects.foodObjects.FoodInFridge;
 import com.system.fridges.models.transferObjects.fridgeObjects.FridgeOrder;
+import com.system.fridges.models.transferObjects.userObjects.UserOrder;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -21,13 +22,33 @@ import java.util.Date;
         classes = @ConstructorResult(
                 targetClass = FridgeOrder.class,
                 columns = {
-                        @ColumnResult(name = "order_id", type = String.class),
-                        @ColumnResult(name = "date_delivery", type = Integer.class),
-                        @ColumnResult(name = "name", type = Date.class),
+                        @ColumnResult(name = "order_id", type = Integer.class),
+                        @ColumnResult(name = "date_delivery", type =  LocalDateTime.class),
                         @ColumnResult(name = "name", type = String.class),
                         @ColumnResult(name = "surname", type = String.class),
                         @ColumnResult(name = "patronymic", type = String.class),
                         @ColumnResult(name = "email", type = String.class)
+                }
+        )
+)
+
+@NamedNativeQuery(
+        name = "UserOrderQuery",
+        query =
+                "SELECT ar.date_delivery, ar.number, ac.fridge_access, p.name, p.weight FROM auto_order as ar \n" +
+                        "            LEFT JOIN access as ac ON ar.access_order = ac.access_id \n" +
+                        "            LEFT JOIN product as p ON ar.product_id = p.product_id WHERE ac.user_access = :userId",
+        resultSetMapping = "UserOrderMapping"
+)
+@SqlResultSetMapping(
+        name = "UserOrderMapping",
+        classes = @ConstructorResult(
+                targetClass = UserOrder.class,
+                columns = {
+                        @ColumnResult(name = "date_delivery", type = LocalDateTime.class),
+                        @ColumnResult(name = "fridge_access", type = Integer.class),
+                        @ColumnResult(name = "name", type = String.class),
+                        @ColumnResult(name = "weight", type = Double.class)
                 }
         )
 )
