@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -28,7 +29,7 @@ public interface FridgeRepository extends JpaRepository<Fridge, Integer> {
             "  SELECT ac.fridge_access FROM access as ac WHERE ac.user_access = :userId)  ", nativeQuery = true)
     List<Fridge> getFridgesByUserId(@Param("userId") int userId);
 
-    @Query(value = "SELECT fridge_id, temperature, humidity, f.office_id " +
+    @Query(value = "SELECT fridge_id, temperature, humidity, f.model_id, f.office_id " +
             "FROM fridge as f LEFT JOIN office as o ON f.office_id = o.office_id " +
             "WHERE o.name_company = :nameCompany", nativeQuery = true)
     List<Fridge> getCompanyFridges(@Param("nameCompany") String nameCompany);

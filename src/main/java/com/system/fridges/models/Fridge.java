@@ -45,12 +45,10 @@ public class Fridge {
     private float  humidity;
 
     @ManyToOne
-    //@Column(name = "office_id", nullable = false)
     @JoinColumn(name = "office_id", nullable = false)
     private Office  office;
 
     @ManyToOne
-    //@Column(name = "model_id", nullable = false)
     @JoinColumn(name = "model_id", nullable = false)
     private Model  model;
 
