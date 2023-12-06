@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.parameters.P;
 
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -31,7 +32,8 @@ public class DatabaseAdminControllerTest {
     @Test
     void restoreDatabaseReturnsValidResponse() {
         // Arrange
-        String backupPathHash = "exampleBackupPathHash";
+        String backupPath = "exampleBackupPathHash";
+        byte[] backupPathHash = Base64.getEncoder().encode(backupPath.getBytes());
         Mockito.when(adminService.restoreDatabase(backupPathHash)).thenReturn(true);
 
         // Act
@@ -45,7 +47,8 @@ public class DatabaseAdminControllerTest {
     @Test
     void backupDatabaseReturnsValidResponse() {
         // Arrange
-        String backupPathHash = "exampleBackupPathHash";
+        String backupPath = "exampleBackupPathHash";
+        byte[] backupPathHash = Base64.getEncoder().encode(backupPath.getBytes());
         Mockito.when(adminService.doBackupDatabase(backupPathHash)).thenReturn(true);
 
         // Act

@@ -4,6 +4,7 @@ import com.system.fridges.models.User;
 import com.system.fridges.models.transferObjects.JwtAuthenticationResponse;
 import com.system.fridges.models.transferObjects.RefreshTokenRequest;
 import com.system.fridges.repositories.UserRepository;
+import com.system.fridges.security.JwtAuthenticationFilter;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -26,8 +27,11 @@ public class AuthenticationServiceImpl {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private CustomUserDetailsService customUserDetailsService;
+
     @Value("${app.jwt.secret}")
-    private  String secretKey;
+    private  String secretKey = "413F442847284862506553685660597033733676397924422645294848406351";
 
     public String extractUserName(String token) {
         return extractClaim(token, Claims::getSubject);
@@ -76,7 +80,7 @@ public class AuthenticationServiceImpl {
 
     public JwtAuthenticationResponse refreshToken(RefreshTokenRequest refreshToken) {
         String email = extractUserName(refreshToken.getToken());
-        UserDetails user = loadUserByUsername(email);
+        UserDetails user = customUserDetailsService.loadUserByUsername(email);
 
         if (isTokenValid(refreshToken.getToken(), user)) {
             var jwt = generationToken(user);

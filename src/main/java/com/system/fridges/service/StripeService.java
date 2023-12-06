@@ -28,15 +28,13 @@ import java.util.Map;
 @Service
 public class StripeService {
 
-//    @Value("${stripe.secret-key}")
-//    private String secretKey;
-
     @Value("${stripe.api.publicKey}")
     private String publicKey;
 
     void init() {
         Stripe.apiKey = publicKey;
     }
+
      public StripeResponse createPaymentIntent(StripeRequest request)
             throws StripeException {
 

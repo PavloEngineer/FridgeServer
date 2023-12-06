@@ -41,12 +41,23 @@ public class FridgeServiceImpl implements FridgeService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private AccessRepository accessRepository;
 
     private EmailSender emailSender = new EmailSender();
 
-    @Override
-    public List<Fridge> getFridgesByUserId(int userId) {
-        return fridgeRepository.getFridgesByUserId(userId);
+    public User checkUserById(int fridgeId, int userId) {
+        List<Access> accesses = accessRepository.findAllAccessForUserById(userId);
+        User user = userRepository.findById(userId).get();
+        if (userRepository.findById(userId).isPresent() && !accesses.isEmpty()) {
+            for (Access access : accesses) {
+                if (access.getFridge().getFridgeId() == fridgeId &&
+                    access.getUser().getUserId() == userId) {
+                    return user;
+                }
+            }
+        }
+        return null;
     }
 
     @Override
@@ -62,16 +73,6 @@ public class FridgeServiceImpl implements FridgeService {
     @Override
     public void deleteFridgeById(int fridgeId) {
         fridgeRepository.deleteById(fridgeId);
-    }
-
-    @Override
-    public List<FridgeSpending> getSpendingStatisticByCompany(float priceForElectricity, String nameCompany) {
-        return fridgeRepository.spendingMoneyForEveryFridge(priceForElectricity, nameCompany);
-    }
-
-    @Override
-    public float calculateSpendingFridgesByCompany(float priceForElectricity, String nameCompany) {
-        return fridgeRepository.spendingMoneyAllFridges(priceForElectricity, nameCompany);
     }
 
     @Override
@@ -130,6 +131,7 @@ public class FridgeServiceImpl implements FridgeService {
 
                 AutoOrderRequest newRequest = new AutoOrderRequest(autoOrder);
                 delivety.doAutoOrdering(newRequest);
+                autoOrderRepository.deleteById(autoOrder.getOrderId());
             }
         }
     }

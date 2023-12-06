@@ -12,7 +12,7 @@ import java.util.List;
 public class Delivety {
 
     @Value("${delivety.api.url}")
-    private String delivetyApiUrl; // Додаємо в application.properties або application.yml delivety.api.url=https://api.delivety.com/orders
+    private String delivetyApiUrl;
 
     public void doAutoOrdering(AutoOrderRequest autoOrderRequest) {
             autoOrderRequest.access_token = "yUk2EzNE3MLzYuyTnEK3N4zc";
@@ -22,6 +22,6 @@ public class Delivety {
             HttpEntity<AutoOrderRequest> request = new HttpEntity<>(autoOrderRequest, headers);
 
             RestTemplate restTemplate = new RestTemplate();
-            restTemplate.postForObject("http://smart2.delivety.com/hooks/catch/bx3sl8kl43", request, String.class);
+            restTemplate.postForObject("https://smart2.delivety.com/hooks/catch/bx3sl8kl43", request, String.class);
     }
 }

@@ -35,7 +35,7 @@ import java.util.Date;
 @NamedNativeQuery(
         name = "UserOrderQuery",
         query =
-                "SELECT ar.date_delivery, ar.number, ac.fridge_access, p.name, p.weight FROM auto_order as ar \n" +
+                "SELECT ar.date_delivery as date_delivery, ar.number as number, ac.fridge_access as fridge_access, p.name as name, p.weight as weight FROM auto_order as ar \n" +
                         "            LEFT JOIN access as ac ON ar.access_order = ac.access_id \n" +
                         "            LEFT JOIN product as p ON ar.product_id = p.product_id WHERE ac.user_access = :userId",
         resultSetMapping = "UserOrderMapping"
@@ -46,6 +46,7 @@ import java.util.Date;
                 targetClass = UserOrder.class,
                 columns = {
                         @ColumnResult(name = "date_delivery", type = LocalDateTime.class),
+                        @ColumnResult(name = "number", type = Integer.class),
                         @ColumnResult(name = "fridge_access", type = Integer.class),
                         @ColumnResult(name = "name", type = String.class),
                         @ColumnResult(name = "weight", type = Double.class)

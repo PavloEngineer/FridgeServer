@@ -95,10 +95,8 @@ public class FridgeControllerFunctionalTest {
         // Act
         ResponseEntity<Void> responseEntity = restTemplate.postForEntity("/fridge/doAutoOrder", fridgeId, Void.class);
 
-        // Assert: Assuming a successful request (HttpStatus.OK)
+        // Assert
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
     }
-
-
 }
 

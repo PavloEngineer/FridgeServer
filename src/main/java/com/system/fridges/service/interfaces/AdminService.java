@@ -10,9 +10,9 @@ import java.util.List;
 
 public interface AdminService {
 
-    public boolean doBackupDatabase(String backupPathHash);
+    public boolean doBackupDatabase(byte[] backupPathHash);
 
-    public boolean restoreDatabase(String backupPathHash);
+    public boolean restoreDatabase(byte[] backupPathHash);
 
      List<FridgeSpending> getSpendingElectricity(float price, String nameCompany);
 

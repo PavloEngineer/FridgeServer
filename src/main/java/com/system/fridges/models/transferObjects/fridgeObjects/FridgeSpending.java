@@ -1,15 +1,22 @@
 package com.system.fridges.models.transferObjects.fridgeObjects;
 
-public class FridgeSpending{
-    public int fridge_id;
-    public String name_model;
-    public Double energy_per_year;
-    public Double spendingMoney;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 
-    public FridgeSpending(int fridgeId, String modelName, Double energyPerYear, Double spendingMoney) {
-        this.fridge_id = fridgeId;
-        this.name_model = modelName;
-        this.energy_per_year = energyPerYear;
-        this.spendingMoney = spendingMoney;
-    }
+@Data
+@AllArgsConstructor
+public class FridgeSpending{
+
+    @JsonProperty("fridge_id")
+    private int fridge_id;
+
+    @JsonProperty("name_model")
+    private String name_model;
+
+    @JsonProperty("energy_per_year")
+    private Double energy_per_year;
+
+    @JsonProperty("spendingMoney")
+    private Double spendingMoney;
 }

@@ -48,7 +48,7 @@ public class AdminServiceImpl implements AdminService {
     private ProductRepository productRepository;
 
     @Override
-    public boolean doBackupDatabase(String backupPathHash) {
+    public boolean doBackupDatabase(byte[] backupPathHash) {
         byte[] decodedBytes = Base64.getDecoder().decode(backupPathHash);
         String backupPathDecoded = new String(decodedBytes, StandardCharsets.UTF_8);
         DatabaseManager databaseManager = new DatabaseManager();
@@ -56,7 +56,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public boolean restoreDatabase(String backupPathHash) {
+    public boolean restoreDatabase(byte[] backupPathHash) {
         byte[] decodedBytes = Base64.getDecoder().decode(backupPathHash);
         String backupPathDecoded = new String(decodedBytes, StandardCharsets.UTF_8);
         DatabaseManager databaseManager = new DatabaseManager();

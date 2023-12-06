@@ -9,6 +9,7 @@ import com.system.fridges.models.transferObjects.userObjects.UserOrder;
 import com.system.fridges.repositories.*;
 import com.system.fridges.security.PasswordHashing;
 import com.system.fridges.service.interfaces.UserService;
+import com.system.fridges.service.utils.PhotoManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -143,45 +144,38 @@ public class UserServiceImpl implements UserService {
 
     public byte[] getUserPhoto(String email) {
         String photoPath = userRepository.findUserByEmail(email).orElse(new User()).getPhoto();
-        if (photoPath != null) {
-            try {
-                Path path = Paths.get(photoPath);
-                return Files.readAllBytes(path);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        return null;
+        return PhotoManager.pushPhoto(photoPath);
     }
 
     @Override
     public void saveUser(User user, MultipartFile file) {
         PasswordHashing passwordHashing = new PasswordHashing();
         user.setHashPassword(passwordHashing.encodePassword(user.getHashPassword()));
-        user.setPhoto(getPathAndSavePhoto(file));
+        PhotoManager photoManager = new PhotoManager(file);
+        photoManager.savePhoto();
+        user.setPhoto(photoManager.getAbsolutePath());
         userRepository.save(user);
     }
 
-    private String getPathAndSavePhoto(MultipartFile file) {
-        if (file == null || file.isEmpty() || file.getOriginalFilename() == null) return "";
-        try {
-            // Отримати шлях до теки проекту
-
-            String folderPath = System.getProperty(uploadPath);
-
-            // Створити файл у папці "img"
-            File destination = new File(folderPath, Objects.requireNonNull(file.getOriginalFilename()));
-
-            // Зберегти файл на сервері
-            FileCopyUtils.copy(file.getBytes(), destination);
-
-            // Повернути шлях до збереженого файлу
-            return destination.getAbsolutePath();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return "Upload failed";
-        }
-    }
+//    private void savePhoto(MultipartFile file) {
+//        if (file == null || file.isEmpty() || file.getOriginalFilename() == null) return "";
+//        try {
+//            // Отримати шлях до теки проекту
+//            String folderPath = System.getProperty(uploadPath);
+//
+//            // Створити файл у папці "img"
+//            File destination = new File(folderPath, Objects.requireNonNull(file.getOriginalFilename()));
+//
+//            // Зберегти файл на сервері
+//            FileCopyUtils.copy(file.getBytes(), destination);
+//
+//            // Повернути шлях до збереженого файлу
+//            return destination.getAbsolutePath();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//            return "Upload failed";
+//        }
+//    }
 
     @Override
     public void deleteUser(String email) {
@@ -200,7 +194,7 @@ public class UserServiceImpl implements UserService {
         return !subscriptionRepository.getActualSubscriptionsForUser(user.getUserId()).isEmpty();
     }
 
-    public void addTransaction(@RequestBody Transaction transaction) {
+    public void addTransaction(Transaction transaction) {
         transactionRepository.save(transaction);
     }
 
@@ -212,7 +206,7 @@ public class UserServiceImpl implements UserService {
         foodRepository.saveAll(food);
     }
 
-    public void addSubscription(@RequestBody Subscription subscription) {
+    public void addSubscription(Subscription subscription) {
         subscriptionRepository.save(subscription);
     }
 }

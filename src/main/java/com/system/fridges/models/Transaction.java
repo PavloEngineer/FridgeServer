@@ -67,7 +67,6 @@ public class Transaction {
     private LocalDateTime endDate;
 
     @ManyToOne
-    //@Column(name = "access", nullable = false)
     @JoinColumn(name = "access", nullable = false)
     private Access  access;
 

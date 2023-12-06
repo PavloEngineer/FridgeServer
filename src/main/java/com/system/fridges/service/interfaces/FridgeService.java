@@ -11,16 +11,12 @@ import java.util.List;
 
 public interface FridgeService {
 
-    List<Fridge> getFridgesByUserId(int userId);
+//    List<Fridge> getFridgesByUserId(int userId);
     Fridge getFridgeById(int fridgeId);
 
     void saveFridge(Fridge fridge);
 
     void deleteFridgeById(int fridgeId);
-
-    List<FridgeSpending> getSpendingStatisticByCompany(float priceForElectricity, String nameCompany);
-
-    float calculateSpendingFridgesByCompany(float priceForElectricity, String nameCompany);
 
     List<FoodInFridge> getFoodInFridgeById(int fridgeId);
 

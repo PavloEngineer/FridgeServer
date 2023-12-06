@@ -56,6 +56,7 @@ public class User {
         this.phoneNumber = phoneNumber;
         this.type = type;
     }
+
     public User() {}
 
     public int getUserId() {

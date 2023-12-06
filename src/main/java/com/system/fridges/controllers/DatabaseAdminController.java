@@ -17,12 +17,12 @@ public class DatabaseAdminController {
     private AdminServiceImpl adminService;
 
     @PostMapping("/restore")
-    public ResponseEntity<Boolean> restoreDatabase(String backupPathHash) {
+    public ResponseEntity<Boolean> restoreDatabase(byte[] backupPathHash) {
          return ResponseEntity.ok(adminService.restoreDatabase(backupPathHash));
     }
 
     @PostMapping("/backup")
-    public ResponseEntity<Boolean> backupDatabase(String backupPathHash) {
+    public ResponseEntity<Boolean> backupDatabase(byte[] backupPathHash) {
         return ResponseEntity.ok(adminService.doBackupDatabase(backupPathHash));
     }
 

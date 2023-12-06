@@ -22,12 +22,10 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Autowired
     private UserRepository userRepository;
 
-    private User user;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findUserByEmail(username).orElse(null);
-        this.user = user;
         if (user == null) {
             throw new UsernameNotFoundException("User not found with username: " + username);
         }
@@ -39,9 +37,5 @@ public class CustomUserDetailsService implements UserDetailsService {
                 // Де roles - це колекція ролей користувача.
                 Collections.emptyList()
         );
-    }
-
-    public User getUser() {
-        return user;
     }
 }

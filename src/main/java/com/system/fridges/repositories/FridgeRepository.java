@@ -13,9 +13,7 @@ import java.util.List;
 @Repository
 public interface FridgeRepository extends JpaRepository<Fridge, Integer> {
 
-    @Query(value = "SELECT f.fridge_id, m.name_model, m.energy_per_year, m.energy_per_year * :priceForElectricity AS spendingMoney\n" +
-            "FROM fridge as f \n" +
-            "LEFT JOIN model as m ON f.model_id = m.model_id WHERE :nameCompany IN (SELECT name_company FROM office)", nativeQuery = true)
+    @Query(name = "FridgeSpendingQuery", nativeQuery = true)
     List<FridgeSpending> spendingMoneyForEveryFridge(@Param("priceForElectricity") float priceForElectricity,
                                                      @Param("nameCompany") String nameCompany);
 

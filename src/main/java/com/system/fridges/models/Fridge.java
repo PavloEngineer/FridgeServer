@@ -1,7 +1,33 @@
 package com.system.fridges.models;
 
+import com.system.fridges.models.transferObjects.fridgeObjects.FridgeSpending;
+import com.system.fridges.models.transferObjects.userObjects.UserFood;
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
+import java.util.Date;
+
+
+@NamedNativeQuery(
+        name = "FridgeSpendingQuery",
+        query =
+                "SELECT f.fridge_id as fridge_id, m.name_model as name_model, m.energy_per_year as energy_per_year, m.energy_per_year * :priceForElectricity AS spendingMoney \n" +
+                        "            FROM fridge as f \n" +
+                        "            LEFT JOIN model as m ON f.model_id = m.model_id WHERE :nameCompany IN (SELECT name_company FROM office)",
+        resultSetMapping = "FridgeSpendingMapping"
+)
+@SqlResultSetMapping(
+        name = "FridgeSpendingMapping",
+        classes = @ConstructorResult(
+                targetClass = FridgeSpending.class,
+                columns = {
+                        @ColumnResult(name = "fridge_id", type = Integer.class),
+                        @ColumnResult(name = "name_model", type = String.class),
+                        @ColumnResult(name = "energy_per_year", type = Double.class),
+                        @ColumnResult(name = "spendingMoney", type = Double.class)
+                }
+        )
+)
 
 @Entity
 @Table(name = "fridge")

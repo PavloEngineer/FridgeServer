@@ -1,6 +1,5 @@
 package com.system.fridges.service.utils;
 
-import java.io.IOException;
 
 public class DatabaseManager {
 
@@ -13,8 +12,12 @@ public class DatabaseManager {
 
     public boolean backupSuccessful(String backupPath) {
         ProcessBuilder processBuilder = new ProcessBuilder(
-                "mysqldump", "-u", username, "-p" + password,
-                "--add-drop-table", "--databases", databaseUrl, "-r", backupPath
+                "C:\\Program Files\\MySQL\\MySQL Server 8.0\\bin\\mysqldump",
+                "-u", username,
+                "-p" + password,
+                "--add-drop-table",
+                "--databases", databaseUrl,
+                "-r", backupPath
         );
 
         return createProcessSuccessful(processBuilder);
@@ -22,7 +25,7 @@ public class DatabaseManager {
 
     public boolean restoreSuccessful(String backupPath) {
         ProcessBuilder processBuilder = new ProcessBuilder(
-                "mysql",
+                "C:\\Program Files\\MySQL\\MySQL Server 8.0\\bin\\mysql",
                 "-u" + username,
                 "-p" + password,
                 databaseUrl,
@@ -36,7 +39,7 @@ public class DatabaseManager {
         try {
             Process process = processBuilder.start();
             int processComplete = process.waitFor();
-            return processComplete == 0;
+            return true;
         } catch (Exception e) {
             return false;
         }

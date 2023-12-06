@@ -14,7 +14,7 @@ public class UserOrder {
     private LocalDateTime dateDelivery;
 
     @JsonProperty("number")
-    private String number;
+    private int number;
 
     @JsonProperty("fridge_access")
     private int fridgeAccess;
@@ -24,5 +24,4 @@ public class UserOrder {
 
     @JsonProperty("weight")
     private double weight;
-
 }
