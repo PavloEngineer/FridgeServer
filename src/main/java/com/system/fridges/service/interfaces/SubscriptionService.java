@@ -1,7 +1,6 @@
 package com.system.fridges.service.interfaces;
 
-import com.system.fridges.models.Subscription;
-import com.system.fridges.models.User;
+import com.system.fridges.models.entities.Subscription;
 
 import java.util.List;
 

@@ -1,7 +1,7 @@
 package com.system.fridges.repositories;
 
 
-import com.system.fridges.models.Fridge;
+import com.system.fridges.models.entities.Fridge;
 import com.system.fridges.models.transferObjects.fridgeObjects.FridgeSpending;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +26,7 @@ public class FridgeRepositoryFunctionalTest {
         String nameCompany = "Epam";
 
         // Act
-        List<FridgeSpending> fridgeSpendingList = fridgeRepository.spendingMoneyForEveryFridge(priceForElectricity, nameCompany);
+        List<FridgeSpending> fridgeSpendingList = fridgeRepository.getSpendingMoneyForEveryFridge(priceForElectricity, nameCompany);
 
         // Assert
         assertNotNull(fridgeSpendingList);
@@ -39,7 +39,7 @@ public class FridgeRepositoryFunctionalTest {
         String nameCompany = "Epam";
 
         // Act
-        float totalSpendingMoney = fridgeRepository.spendingMoneyAllFridges(priceForElectricity, nameCompany);
+        float totalSpendingMoney = fridgeRepository.getSpendingMoneyAllFridges(priceForElectricity, nameCompany);
 
         // Assert
         assertNotNull(totalSpendingMoney);

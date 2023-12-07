@@ -1,14 +1,16 @@
-package com.system.fridges.models;
+package com.system.fridges.models.entities;
 
 
-import com.system.fridges.models.transferObjects.foodObjects.FoodInFridge;
 import com.system.fridges.models.transferObjects.fridgeObjects.FridgeOrder;
 import com.system.fridges.models.transferObjects.userObjects.UserOrder;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
+
+/** These annotations must be here. Annotations NamedNativeQuery, SqlResultSetMapping parse data
+    from the custom query and put this data into the DTO object.
+ */
 @NamedNativeQuery(
         name = "FridgeOrderQuery",
         query =
@@ -23,7 +25,7 @@ import java.util.Date;
                 targetClass = FridgeOrder.class,
                 columns = {
                         @ColumnResult(name = "order_id", type = Integer.class),
-                        @ColumnResult(name = "date_delivery", type =  LocalDateTime.class),
+                        @ColumnResult(name = "date_delivery", type = LocalDateTime.class),
                         @ColumnResult(name = "name", type = String.class),
                         @ColumnResult(name = "surname", type = String.class),
                         @ColumnResult(name = "patronymic", type = String.class),
@@ -72,11 +74,11 @@ public class AutoOrder {
 
     @ManyToOne
     @JoinColumn(name = "access_order", nullable = false)
-    private Access  access;
+    private Access access;
 
     @ManyToOne
     @JoinColumn(name = "product_id", nullable = false)
-    private Product  product;
+    private Product product;
 
     public AutoOrder(LocalDateTime dateDelivery, int number, Access access, Product product) {
         this.dateDelivery = dateDelivery;
@@ -85,7 +87,8 @@ public class AutoOrder {
         this.product = product;
     }
 
-    public AutoOrder() {}
+    public AutoOrder() {
+    }
 
     public int getOrderId() {
         return orderId;

@@ -1,11 +1,8 @@
 package com.system.fridges.service.interfaces;
 
-import com.system.fridges.models.*;
+import com.system.fridges.models.entities.*;
 import com.system.fridges.models.transferObjects.fridgeObjects.FridgeSpending;
-import com.system.fridges.service.utils.DatabaseManager;
 
-import java.nio.charset.StandardCharsets;
-import java.util.Base64;
 import java.util.List;
 
 public interface AdminService {

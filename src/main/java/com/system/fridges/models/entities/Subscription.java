@@ -1,6 +1,7 @@
-package com.system.fridges.models;
+package com.system.fridges.models.entities;
 
 import jakarta.persistence.*;
+
 import java.util.Date;
 
 
@@ -23,7 +24,6 @@ public class Subscription {
     private int price;
 
     @ManyToOne
-    //@Column(name = "user_id", nullable = false)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
@@ -34,7 +34,8 @@ public class Subscription {
         this.user = user;
     }
 
-    public Subscription() {}
+    public Subscription() {
+    }
 
     public int getSubscriptionId() {
         return subscriptionId;

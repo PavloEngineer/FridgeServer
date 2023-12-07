@@ -1,16 +1,11 @@
 package com.system.fridges.models.transferObjects.foodObjects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.time.LocalDateTime;
 import java.util.Date;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
-import org.hibernate.annotations.NamedNativeQuery;
-import org.springframework.beans.factory.annotation.Value;
 
 
 @Data

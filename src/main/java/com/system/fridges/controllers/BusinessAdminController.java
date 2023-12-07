@@ -1,7 +1,7 @@
 package com.system.fridges.controllers;
 
 
-import com.system.fridges.models.*;
+import com.system.fridges.models.entities.*;
 import com.system.fridges.models.transferObjects.fridgeObjects.FridgeSpending;
 import com.system.fridges.service.AdminServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,12 +20,12 @@ public class BusinessAdminController {
     private AdminServiceImpl adminService;
 
     @GetMapping("/electricity")
-    public ResponseEntity<List<FridgeSpending>> getSpendingElectricity(float price, String nameCompany) {
+    public ResponseEntity<List<FridgeSpending>> getSpendingElectricityByCompany(float price, String nameCompany) {
         return ResponseEntity.ok(adminService.getSpendingElectricity(price, nameCompany));
     }
 
     @GetMapping("/electricitySum")
-    public ResponseEntity<Float> getSumSpending(float price, String nameCompany) {
+    public ResponseEntity<Float> getSumSpendingByCompany(float price, String nameCompany) {
         return ResponseEntity.ok(adminService.getSumSpending(price, nameCompany));
     }
 
@@ -45,27 +45,27 @@ public class BusinessAdminController {
     }
 
     @GetMapping("/allOffice")
-    public ResponseEntity<List<Office>> getAllOffice() {
+    public ResponseEntity<List<Office>> getAllOffices() {
         return ResponseEntity.ok(adminService.getAllOffice());
     }
 
     @GetMapping("/allModel")
-    public ResponseEntity<List<Model>> getAllModel() {
+    public ResponseEntity<List<Model>> getAllModels() {
         return ResponseEntity.ok(adminService.getAllModel());
     }
 
     @GetMapping("/allSubscription")
-    public ResponseEntity<List<Subscription>> getAllSubscription() {
+    public ResponseEntity<List<Subscription>> getAllSubscriptions() {
         return ResponseEntity.ok(adminService.getAllSubscription());
     }
 
     @GetMapping("/allAutoOrder")
-    public ResponseEntity<List<AutoOrder>> getAllOrder() {
+    public ResponseEntity<List<AutoOrder>> getAllOrders() {
         return ResponseEntity.ok(adminService.getAllOrder());
     }
 
     @GetMapping("/allProduct")
-    public ResponseEntity<List<Product>> getAllProduct() {
+    public ResponseEntity<List<Product>> getAllProducts() {
         return ResponseEntity.ok(adminService.getAllProduct());
     }
 
@@ -75,7 +75,7 @@ public class BusinessAdminController {
     }
 
     @GetMapping("/allTransaction")
-    public ResponseEntity<List<Transaction>> getAllTransaction() {
+    public ResponseEntity<List<Transaction>> getAllTransactions() {
         return ResponseEntity.ok(adminService.getAllTransaction());
     }
 }

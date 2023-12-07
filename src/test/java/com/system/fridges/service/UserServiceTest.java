@@ -1,9 +1,7 @@
 package com.system.fridges.service;
 
-import com.system.fridges.models.*;
 import com.system.fridges.models.enam.UserType;
-import com.system.fridges.models.transferObjects.JwtAuthenticationResponse;
-import com.system.fridges.models.transferObjects.userObjects.SignInRequest;
+import com.system.fridges.models.entities.*;
 import com.system.fridges.models.transferObjects.userObjects.UserFood;
 import com.system.fridges.models.transferObjects.userObjects.UserOrder;
 import com.system.fridges.models.transferObjects.userObjects.UserTransactionHistory;
@@ -13,14 +11,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.AbstractCollection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;

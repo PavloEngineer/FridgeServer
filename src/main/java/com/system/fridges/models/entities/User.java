@@ -1,8 +1,7 @@
-package com.system.fridges.models;
+package com.system.fridges.models.entities;
+
 import com.system.fridges.models.enam.UserType;
 import jakarta.persistence.*;
-
-import java.util.Random;
 
 
 @Entity
@@ -42,8 +41,6 @@ public class User {
     @Column(name = "type", nullable = false)
     private UserType type;
 
-    // Конструктори, геттери та сеттери
-
     public User(String name, String surname, String patronymic, String password,
                 String email, String numberContract, String photo, String phoneNumber, UserType type) {
         this.name = name;
@@ -57,7 +54,8 @@ public class User {
         this.type = type;
     }
 
-    public User() {}
+    public User() {
+    }
 
     public int getUserId() {
         return userId;
@@ -92,7 +90,7 @@ public class User {
     }
 
     public String getHashPassword() {
-         return passwordHash;
+        return passwordHash;
     }
 
     public String getEmail() {

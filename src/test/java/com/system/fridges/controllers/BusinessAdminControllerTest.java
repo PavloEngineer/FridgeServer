@@ -1,6 +1,6 @@
 package com.system.fridges.controllers;
 
-import com.system.fridges.models.*;
+import com.system.fridges.models.entities.*;
 import com.system.fridges.models.transferObjects.fridgeObjects.FridgeSpending;
 import com.system.fridges.service.AdminServiceImpl;
 import org.junit.jupiter.api.Test;
@@ -10,10 +10,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -37,7 +35,7 @@ class BusinessAdminControllerTest {
         when(adminService.getSpendingElectricity(price, nameCompany)).thenReturn(expectedSpending);
 
         // Act
-        ResponseEntity<List<FridgeSpending>> responseEntity = businessAdminController.getSpendingElectricity(price, nameCompany);
+        ResponseEntity<List<FridgeSpending>> responseEntity = businessAdminController.getSpendingElectricityByCompany(price, nameCompany);
 
         // Assert
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
@@ -54,7 +52,7 @@ class BusinessAdminControllerTest {
         when(adminService.getSumSpending(price, nameCompany)).thenReturn(expectedSum);
 
         // Act
-        ResponseEntity<Float> responseEntity = businessAdminController.getSumSpending(price, nameCompany);
+        ResponseEntity<Float> responseEntity = businessAdminController.getSumSpendingByCompany(price, nameCompany);
 
         // Assert
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
@@ -96,7 +94,7 @@ class BusinessAdminControllerTest {
     void getAllOfficeReturnsValidResponse() {
         when(adminService.getAllOffice()).thenReturn(new ArrayList<Office>());
 
-        ResponseEntity<List<Office>> responseEntity = businessAdminController.getAllOffice();
+        ResponseEntity<List<Office>> responseEntity = businessAdminController.getAllOffices();
 
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         verify(adminService, times(1)).getAllOffice();
@@ -106,7 +104,7 @@ class BusinessAdminControllerTest {
     void getAllModelReturnsValidResponse() {
         when(adminService.getAllModel()).thenReturn(new ArrayList<Model>());
 
-        ResponseEntity<List<Model>> responseEntity = businessAdminController.getAllModel();
+        ResponseEntity<List<Model>> responseEntity = businessAdminController.getAllModels();
 
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         verify(adminService, times(1)).getAllModel();
@@ -116,7 +114,7 @@ class BusinessAdminControllerTest {
     void getAllSubscriptionReturnsValidResponse() {
         when(adminService.getAllSubscription()).thenReturn(new ArrayList<Subscription>());
 
-        ResponseEntity<List<Subscription>> responseEntity = businessAdminController.getAllSubscription();
+        ResponseEntity<List<Subscription>> responseEntity = businessAdminController.getAllSubscriptions();
 
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         verify(adminService, times(1)).getAllSubscription();
@@ -126,7 +124,7 @@ class BusinessAdminControllerTest {
     void getAllOrderReturnsValidResponse() {
         when(adminService.getAllOrder()).thenReturn(new ArrayList<AutoOrder>());
 
-        ResponseEntity<List<AutoOrder>> responseEntity = businessAdminController.getAllOrder();
+        ResponseEntity<List<AutoOrder>> responseEntity = businessAdminController.getAllOrders();
 
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         verify(adminService, times(1)).getAllOrder();
@@ -136,7 +134,7 @@ class BusinessAdminControllerTest {
     void getAllProductReturnsValidResponse() {
         when(adminService.getAllProduct()).thenReturn(new ArrayList<Product>());
 
-        ResponseEntity<List<Product>> responseEntity = businessAdminController.getAllProduct();
+        ResponseEntity<List<Product>> responseEntity = businessAdminController.getAllProducts();
 
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         verify(adminService, times(1)).getAllProduct();
@@ -156,7 +154,7 @@ class BusinessAdminControllerTest {
     void getAllTransactionReturnsValidResponse() {
         when(adminService.getAllTransaction()).thenReturn(new ArrayList<Transaction>());
 
-        ResponseEntity<List<Transaction>> responseEntity = businessAdminController.getAllTransaction();
+        ResponseEntity<List<Transaction>> responseEntity = businessAdminController.getAllTransactions();
 
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         verify(adminService, times(1)).getAllTransaction();

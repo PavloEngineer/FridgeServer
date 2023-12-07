@@ -1,15 +1,16 @@
-package com.system.fridges.models;
+package com.system.fridges.models.entities;
 
 
-import com.system.fridges.models.transferObjects.fridgeObjects.FridgeOrder;
 import com.system.fridges.models.transferObjects.fridgeObjects.FridgeTransactionHistory;
 import com.system.fridges.models.transferObjects.userObjects.UserTransactionHistory;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 
+/** These annotations must be here. Annotations NamedNativeQuery, SqlResultSetMapping parse data
+ from the custom query and put this data into the DTO object.
+ */
 @NamedNativeQuery(
         name = "FridgeTransactionHistoryQuery",
         query =
@@ -68,7 +69,7 @@ public class Transaction {
 
     @ManyToOne
     @JoinColumn(name = "access", nullable = false)
-    private Access  access;
+    private Access access;
 
     public Transaction(LocalDateTime beginDate, LocalDateTime endDate, Access access) {
         this.beginDate = beginDate;
@@ -76,7 +77,8 @@ public class Transaction {
         this.access = access;
     }
 
-    public Transaction() {}
+    public Transaction() {
+    }
 
     public int getTransactionId() {
         return transactionId;

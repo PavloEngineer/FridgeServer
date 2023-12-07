@@ -1,7 +1,7 @@
 package com.system.fridges.service;
 
 
-import com.system.fridges.models.*;
+import com.system.fridges.models.entities.*;
 import com.system.fridges.models.transferObjects.fridgeObjects.FridgeSpending;
 import com.system.fridges.repositories.*;
 import org.junit.jupiter.api.Test;
@@ -76,7 +76,7 @@ public class AdminServiceTest {
         int price = 100;
         String nameCompany = "Epam";
         List<FridgeSpending> expectedSpendingList = List.of(new FridgeSpending(1, "Epam", 23000.0, 10.0));
-        when(fridgeRepository.spendingMoneyForEveryFridge(price, nameCompany)).thenReturn(expectedSpendingList);
+        when(fridgeRepository.getSpendingMoneyForEveryFridge(price, nameCompany)).thenReturn(expectedSpendingList);
 
         // Act
         List<FridgeSpending> result = adminService.getSpendingElectricity(price, nameCompany);
@@ -91,7 +91,7 @@ public class AdminServiceTest {
         float price = 100.0f;
         String nameCompany = "ExampleCompany";
         float expectedSumSpending = 500.0f;
-        when(fridgeRepository.spendingMoneyAllFridges(price, nameCompany)).thenReturn(expectedSumSpending);
+        when(fridgeRepository.getSpendingMoneyAllFridges(price, nameCompany)).thenReturn(expectedSumSpending);
 
         // Act
         float result = adminService.getSumSpending(price, nameCompany);

@@ -1,7 +1,7 @@
 package com.system.fridges.controllers;
 
 
-import com.system.fridges.models.User;
+import com.system.fridges.models.entities.User;
 import com.system.fridges.models.transferObjects.foodObjects.FoodInFridge;
 import com.system.fridges.models.transferObjects.fridgeObjects.FridgeOrder;
 import com.system.fridges.models.transferObjects.fridgeObjects.FridgeTransactionHistory;

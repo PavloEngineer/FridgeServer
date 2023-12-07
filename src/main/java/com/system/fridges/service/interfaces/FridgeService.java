@@ -1,10 +1,8 @@
 package com.system.fridges.service.interfaces;
 
-import com.system.fridges.models.AutoOrder;
-import com.system.fridges.models.Fridge;
+import com.system.fridges.models.entities.Fridge;
 import com.system.fridges.models.transferObjects.foodObjects.FoodInFridge;
 import com.system.fridges.models.transferObjects.fridgeObjects.FridgeOrder;
-import com.system.fridges.models.transferObjects.fridgeObjects.FridgeSpending;
 import com.system.fridges.models.transferObjects.fridgeObjects.FridgeTransactionHistory;
 
 import java.util.List;

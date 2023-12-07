@@ -1,7 +1,6 @@
 package com.system.fridges.service.functional;
 
-import com.system.fridges.models.*;
-import com.system.fridges.models.enam.UserType;
+import com.system.fridges.models.entities.*;
 import com.system.fridges.models.transferObjects.userObjects.UserFood;
 import com.system.fridges.models.transferObjects.userObjects.UserOrder;
 import com.system.fridges.models.transferObjects.userObjects.UserTransactionHistory;
@@ -14,16 +13,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.test.web.servlet.ResultActions;
 
 import java.io.File;
-import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class UserServiceFunctionalTest {

@@ -1,7 +1,7 @@
 package com.system.fridges.controllers.functional;
 
 
-import com.system.fridges.models.*;
+import com.system.fridges.models.entities.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

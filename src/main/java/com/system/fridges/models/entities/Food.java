@@ -1,4 +1,4 @@
-package com.system.fridges.models;
+package com.system.fridges.models.entities;
 
 
 import com.system.fridges.models.transferObjects.foodObjects.FoodInFridge;
@@ -9,6 +9,10 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Date;
 
+
+/** These annotations must be here. Annotations NamedNativeQuery, SqlResultSetMapping parse data
+ from the custom query and put this data into the DTO object.
+ */
 @NamedNativeQuery(
         name = "FoodInFridgeQuery",
         query =
@@ -101,7 +105,7 @@ public class Food {
 
     @ManyToOne
     @JoinColumn(name = "transaction_id", nullable = false)
-    private Transaction  transaction;
+    private Transaction transaction;
 
     public Food(Date dateValidity, int numberBoxes, String name, Transaction transaction) {
         this.dateValidity = dateValidity;
@@ -110,7 +114,8 @@ public class Food {
         this.transaction = transaction;
     }
 
-    public Food() {}
+    public Food() {
+    }
 
     public int getFoodId() {
         return foodId;

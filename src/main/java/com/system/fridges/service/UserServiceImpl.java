@@ -1,7 +1,7 @@
 package com.system.fridges.service;
 
-import com.system.fridges.models.*;
-import com.system.fridges.models.transferObjects.JwtAuthenticationResponse;
+import com.system.fridges.models.entities.*;
+import com.system.fridges.models.transferObjects.authenticationObjects.JwtAuthenticationResponse;
 import com.system.fridges.models.transferObjects.userObjects.SignInRequest;
 import com.system.fridges.models.transferObjects.userObjects.UserTransactionHistory;
 import com.system.fridges.models.transferObjects.userObjects.UserFood;
@@ -11,27 +11,17 @@ import com.system.fridges.security.PasswordHashing;
 import com.system.fridges.service.interfaces.UserService;
 import com.system.fridges.service.utils.PhotoManager;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.util.FileCopyUtils;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
 
 @Service
 public class UserServiceImpl implements UserService {

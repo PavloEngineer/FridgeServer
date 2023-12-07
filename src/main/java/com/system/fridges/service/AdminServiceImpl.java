@@ -1,7 +1,7 @@
 package com.system.fridges.service;
 
 
-import com.system.fridges.models.*;
+import com.system.fridges.models.entities.*;
 import com.system.fridges.models.transferObjects.fridgeObjects.FridgeSpending;
 import com.system.fridges.repositories.*;
 import com.system.fridges.service.interfaces.AdminService;
@@ -9,7 +9,6 @@ import com.system.fridges.service.utils.DatabaseManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.List;
@@ -65,12 +64,12 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public List<FridgeSpending> getSpendingElectricity(float price, String nameCompany) {
-        return fridgeRepository.spendingMoneyForEveryFridge(price, nameCompany);
+        return fridgeRepository.getSpendingMoneyForEveryFridge(price, nameCompany);
     }
 
     @Override
     public float getSumSpending(float price, String nameCompany){
-        return fridgeRepository.spendingMoneyAllFridges(price, nameCompany);
+        return fridgeRepository.getSpendingMoneyAllFridges(price, nameCompany);
     }
 
     @Override

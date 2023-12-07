@@ -1,7 +1,8 @@
-package com.system.fridges.models;
+package com.system.fridges.models.entities;
 
 
 import jakarta.persistence.*;
+
 
 @Entity
 @Table(name = "model")

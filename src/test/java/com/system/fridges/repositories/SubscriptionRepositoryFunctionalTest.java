@@ -1,6 +1,6 @@
 package com.system.fridges.repositories;
 
-import com.system.fridges.models.Subscription;
+import com.system.fridges.models.entities.Subscription;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

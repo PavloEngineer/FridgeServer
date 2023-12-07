@@ -1,21 +1,18 @@
 package com.system.fridges.service.functional;
 
 
-import com.system.fridges.models.User;
-import com.system.fridges.models.transferObjects.JwtAuthenticationResponse;
-import com.system.fridges.models.transferObjects.RefreshTokenRequest;
+import com.system.fridges.models.transferObjects.authenticationObjects.JwtAuthenticationResponse;
+import com.system.fridges.models.transferObjects.authenticationObjects.RefreshTokenRequest;
 import com.system.fridges.service.AuthenticationServiceImpl;
 import com.system.fridges.service.CustomUserDetailsService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class AuthenticationServiceFunctionalTest {

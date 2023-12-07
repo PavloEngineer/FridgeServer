@@ -1,4 +1,4 @@
-package com.system.fridges.models;
+package com.system.fridges.models.entities;
 
 
 import jakarta.persistence.*;
@@ -13,21 +13,20 @@ public class Access {
     private int accessId;
 
     @ManyToOne
-    //@Column(name = "user_access", nullable = false)
     @JoinColumn(name = "user_access", nullable = false)
-    private User  user;
+    private User user;
 
     @ManyToOne
-//    @Column(name = "fridge_access", nullable = false)
     @JoinColumn(name = "fridge_access", nullable = false)
-    private Fridge  fridge;
+    private Fridge fridge;
 
-    public Access( User user, Fridge fridge) {
+    public Access(User user, Fridge fridge) {
         this.user = user;
         this.fridge = fridge;
     }
 
-    public Access() {}
+    public Access() {
+    }
 
     public int getAccessId() {
         return accessId;

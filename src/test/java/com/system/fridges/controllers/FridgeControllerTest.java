@@ -1,12 +1,9 @@
 package com.system.fridges.controllers;
 
-import com.system.fridges.models.AutoOrder;
-import com.system.fridges.models.Food;
 import com.system.fridges.models.transferObjects.foodObjects.FoodInFridge;
 import com.system.fridges.models.transferObjects.fridgeObjects.FridgeOrder;
 import com.system.fridges.models.transferObjects.fridgeObjects.FridgeTransactionHistory;
 import com.system.fridges.service.FridgeServiceImpl;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -15,7 +12,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

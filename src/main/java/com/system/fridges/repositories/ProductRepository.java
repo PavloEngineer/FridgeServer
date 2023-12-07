@@ -1,6 +1,6 @@
 package com.system.fridges.repositories;
 
-import com.system.fridges.models.Product;
+import com.system.fridges.models.entities.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

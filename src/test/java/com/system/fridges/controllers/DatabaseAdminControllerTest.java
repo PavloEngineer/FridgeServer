@@ -1,7 +1,7 @@
 package com.system.fridges.controllers;
 
 
-import com.system.fridges.models.*;
+import com.system.fridges.models.entities.*;
 import com.system.fridges.service.AdminServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -11,7 +11,6 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.parameters.P;
 
 import java.util.ArrayList;
 import java.util.Base64;
@@ -79,7 +78,7 @@ public class DatabaseAdminControllerTest {
         List<User> user = new ArrayList<>();
 
         // Act
-        databaseAdminController.addUser(user);
+        databaseAdminController.addUsers(user);
 
         // Assert
         Mockito.verify(adminService, times(1)).addUser(user);
@@ -91,7 +90,7 @@ public class DatabaseAdminControllerTest {
         List<Subscription> subscription = new ArrayList<>();
 
         // Act
-        databaseAdminController.addSubscription(subscription);
+        databaseAdminController.addSubscriptions(subscription);
 
         // Assert
         Mockito.verify(adminService, times(1)).addSubscription(subscription);
@@ -103,7 +102,7 @@ public class DatabaseAdminControllerTest {
         List<Model> models = new ArrayList<>();
 
         // Act
-        databaseAdminController.addModel(models);
+        databaseAdminController.addModels(models);
 
         // Assert
         Mockito.verify(adminService, times(1)).addModel(models);
@@ -115,7 +114,7 @@ public class DatabaseAdminControllerTest {
         List<Office> office = new ArrayList<>();
 
         // Act
-        databaseAdminController.addOffice(office);
+        databaseAdminController.addOffices(office);
 
         // Assert
         Mockito.verify(adminService, times(1)).addOffice(office);
@@ -139,7 +138,7 @@ public class DatabaseAdminControllerTest {
         List<Product> products = new ArrayList<>();
 
         // Act
-        databaseAdminController.addProduct(products);
+        databaseAdminController.addProducts(products);
 
         // Assert
         Mockito.verify(adminService, times(1)).addProduct(products);
@@ -151,7 +150,7 @@ public class DatabaseAdminControllerTest {
         List<AutoOrder> orders = new ArrayList<>();
 
         // Act
-        databaseAdminController.addAutoOrder(orders);
+        databaseAdminController.addAutoOrders(orders);
 
         // Assert
         Mockito.verify(adminService, times(1)).addAutoOrder(orders);
@@ -163,7 +162,7 @@ public class DatabaseAdminControllerTest {
         List<Transaction> transactions = new ArrayList<>();
 
         // Act
-        databaseAdminController.addTransaction(transactions);
+        databaseAdminController.addTransactions(transactions);
 
         // Assert
         Mockito.verify(adminService, times(1)).addTransaction(transactions);
@@ -187,7 +186,7 @@ public class DatabaseAdminControllerTest {
         List<Integer> userIds = new ArrayList<>();
 
         // Act
-        databaseAdminController.deleteUser(userIds);
+        databaseAdminController.deleteUsers(userIds);
 
         // Assert
         Mockito.verify(adminService, times(1)).deleteUser(userIds);
@@ -199,7 +198,7 @@ public class DatabaseAdminControllerTest {
         List<Integer> fridgesIds = new ArrayList<>();
 
         // Act
-        databaseAdminController.deleteFridge(fridgesIds);
+        databaseAdminController.deleteFridges(fridgesIds);
 
         // Assert
         Mockito.verify(adminService, times(1)).deleteFridge(fridgesIds);
@@ -211,7 +210,7 @@ public class DatabaseAdminControllerTest {
         List<Integer> subscriptionIds = new ArrayList<>();
 
         // Act
-        databaseAdminController.deleteSubscription(subscriptionIds);
+        databaseAdminController.deleteSubscriptions(subscriptionIds);
 
         // Assert
         Mockito.verify(adminService, times(1)).deleteSubscription(subscriptionIds);
@@ -223,7 +222,7 @@ public class DatabaseAdminControllerTest {
         List<Integer> modelIds = new ArrayList<>();
 
         // Act
-        databaseAdminController.deleteModel(modelIds);
+        databaseAdminController.deleteModels(modelIds);
 
         // Assert
         Mockito.verify(adminService, times(1)).deleteModel(modelIds);
@@ -235,7 +234,7 @@ public class DatabaseAdminControllerTest {
         List<Integer> officeIds = new ArrayList<>();
 
         // Act
-        databaseAdminController.deleteOffice(officeIds);
+        databaseAdminController.deleteOffices(officeIds);
 
         // Assert
         Mockito.verify(adminService, times(1)).deleteOffice(officeIds);
@@ -259,7 +258,7 @@ public class DatabaseAdminControllerTest {
         List<Integer> productIds = new ArrayList<>();
 
         // Act
-        databaseAdminController.deleteProduct(productIds);
+        databaseAdminController.deleteProducts(productIds);
 
         // Assert
         Mockito.verify(adminService, times(1)).deleteProduct(productIds);
@@ -271,7 +270,7 @@ public class DatabaseAdminControllerTest {
         List<Integer> orderIds = new ArrayList<>();
 
         // Act
-        databaseAdminController.deleteAutoOrder(orderIds);
+        databaseAdminController.deleteAutoOrders(orderIds);
 
         // Assert
         Mockito.verify(adminService, times(1)).deleteAutoOrder(orderIds);
@@ -283,7 +282,7 @@ public class DatabaseAdminControllerTest {
         List<Integer> transactionIds = new ArrayList<>();
 
         // Act
-        databaseAdminController.deleteTransaction(transactionIds);
+        databaseAdminController.deleteTransactions(transactionIds);
 
         // Assert
         Mockito.verify(adminService, times(1)).deleteTransaction(transactionIds);
@@ -336,7 +335,7 @@ public class DatabaseAdminControllerTest {
     void getAllOfficeReturnsValidResponse() {
         when(adminService.getAllOffice()).thenReturn(new ArrayList<Office>());
 
-        ResponseEntity<List<Office>> responseEntity = databaseAdminController.getAllOffice();
+        ResponseEntity<List<Office>> responseEntity = databaseAdminController.getAllOffices();
 
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         verify(adminService, times(1)).getAllOffice();
@@ -346,7 +345,7 @@ public class DatabaseAdminControllerTest {
     void getAllModelReturnsValidResponse() {
         when(adminService.getAllModel()).thenReturn(new ArrayList<Model>());
 
-        ResponseEntity<List<Model>> responseEntity = databaseAdminController.getAllModel();
+        ResponseEntity<List<Model>> responseEntity = databaseAdminController.getAllModels();
 
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         verify(adminService, times(1)).getAllModel();
@@ -356,7 +355,7 @@ public class DatabaseAdminControllerTest {
     void getAllSubscriptionReturnsValidResponse() {
         when(adminService.getAllSubscription()).thenReturn(new ArrayList<Subscription>());
 
-        ResponseEntity<List<Subscription>> responseEntity = databaseAdminController.getAllSubscription();
+        ResponseEntity<List<Subscription>> responseEntity = databaseAdminController.getAllSubscriptions();
 
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         verify(adminService, times(1)).getAllSubscription();
@@ -366,7 +365,7 @@ public class DatabaseAdminControllerTest {
     void getAllOrderReturnsValidResponse() {
         when(adminService.getAllOrder()).thenReturn(new ArrayList<AutoOrder>());
 
-        ResponseEntity<List<AutoOrder>> responseEntity = databaseAdminController.getAllOrder();
+        ResponseEntity<List<AutoOrder>> responseEntity = databaseAdminController.getAllOrders();
 
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         verify(adminService, times(1)).getAllOrder();
@@ -376,7 +375,7 @@ public class DatabaseAdminControllerTest {
     void getAllProductReturnsValidResponse() {
         when(adminService.getAllProduct()).thenReturn(new ArrayList<Product>());
 
-        ResponseEntity<List<Product>> responseEntity = databaseAdminController.getAllProduct();
+        ResponseEntity<List<Product>> responseEntity = databaseAdminController.getAllProducts();
 
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         verify(adminService, times(1)).getAllProduct();
@@ -396,7 +395,7 @@ public class DatabaseAdminControllerTest {
     void getAllTransactionReturnsValidResponse() {
         when(adminService.getAllTransaction()).thenReturn(new ArrayList<Transaction>());
 
-        ResponseEntity<List<Transaction>> responseEntity = databaseAdminController.getAllTransaction();
+        ResponseEntity<List<Transaction>> responseEntity = databaseAdminController.getAllTransactions();
 
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         verify(adminService, times(1)).getAllTransaction();

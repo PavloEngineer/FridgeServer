@@ -1,4 +1,4 @@
-package com.system.fridges.models.transferObjects;
+package com.system.fridges.models.transferObjects.authenticationObjects;
 
 import lombok.Data;
 

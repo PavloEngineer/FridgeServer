@@ -1,13 +1,11 @@
-package com.system.fridges.models;
+package com.system.fridges.models.entities;
 
 import com.system.fridges.models.transferObjects.fridgeObjects.FridgeSpending;
-import com.system.fridges.models.transferObjects.userObjects.UserFood;
 import jakarta.persistence.*;
 
-import java.time.LocalDateTime;
-import java.util.Date;
-
-
+/** These annotations must be here. Annotations NamedNativeQuery, SqlResultSetMapping parse data
+ from the custom query and put this data into the DTO object.
+ */
 @NamedNativeQuery(
         name = "FridgeSpendingQuery",
         query =
@@ -39,18 +37,18 @@ public class Fridge {
     private int fridgeId;
 
     @Column(name = "temperature", nullable = false)
-    private float  temperature;
+    private float temperature;
 
     @Column(name = "humidity", nullable = false)
-    private float  humidity;
+    private float humidity;
 
     @ManyToOne
     @JoinColumn(name = "office_id", nullable = false)
-    private Office  office;
+    private Office office;
 
     @ManyToOne
     @JoinColumn(name = "model_id", nullable = false)
-    private Model  model;
+    private Model model;
 
     public Fridge(float temperature, float humidity, Office office, Model model) {
         this.temperature = temperature;
@@ -59,7 +57,8 @@ public class Fridge {
         this.model = model;
     }
 
-    public Fridge() {}
+    public Fridge() {
+    }
 
     public int getFridgeId() {
         return fridgeId;

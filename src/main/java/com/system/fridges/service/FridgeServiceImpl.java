@@ -1,20 +1,21 @@
 package com.system.fridges.service;
 
 
-import com.system.fridges.models.*;
-import com.system.fridges.models.transferObjects.*;
+import com.system.fridges.models.entities.Access;
+import com.system.fridges.models.entities.AutoOrder;
+import com.system.fridges.models.entities.Fridge;
+import com.system.fridges.models.entities.User;
 import com.system.fridges.models.transferObjects.foodObjects.FoodInFridge;
 import com.system.fridges.models.transferObjects.foodObjects.SpoiledFood;
 import com.system.fridges.models.transferObjects.fridgeObjects.FridgeOrder;
-import com.system.fridges.models.transferObjects.fridgeObjects.FridgeSpending;
 import com.system.fridges.models.transferObjects.fridgeObjects.FridgeTransactionHistory;
+import com.system.fridges.models.transferObjects.orderObjects.AutoOrderRequest;
 import com.system.fridges.repositories.*;
 import com.system.fridges.service.interfaces.FridgeService;
 import com.system.fridges.service.utils.Delivety;
 import com.system.fridges.service.utils.EmailSender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.time.LocalDateTime;
 import java.util.Collections;

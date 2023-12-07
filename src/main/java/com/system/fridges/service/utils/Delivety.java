@@ -1,13 +1,11 @@
 package com.system.fridges.service.utils;
 
-import com.system.fridges.models.transferObjects.AutoOrderRequest;
+import com.system.fridges.models.transferObjects.orderObjects.AutoOrderRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.web.client.RestTemplate;
-
-import java.util.List;
 
 public class Delivety {
 

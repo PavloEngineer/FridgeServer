@@ -9,13 +9,13 @@ import lombok.Data;
 public class FridgeSpending{
 
     @JsonProperty("fridge_id")
-    private int fridge_id;
+    private int fridgeId;
 
     @JsonProperty("name_model")
-    private String name_model;
+    private String nameModel;
 
     @JsonProperty("energy_per_year")
-    private Double energy_per_year;
+    private Double energyPerYear;
 
     @JsonProperty("spendingMoney")
     private Double spendingMoney;

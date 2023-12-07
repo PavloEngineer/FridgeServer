@@ -1,8 +1,8 @@
 package com.system.fridges.service.functional;
 
 
-import com.system.fridges.models.*;
 import com.system.fridges.models.enam.UserType;
+import com.system.fridges.models.entities.*;
 import com.system.fridges.models.transferObjects.fridgeObjects.FridgeSpending;
 import com.system.fridges.repositories.*;
 import com.system.fridges.service.AdminServiceImpl;

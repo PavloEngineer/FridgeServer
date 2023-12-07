@@ -1,6 +1,6 @@
 package com.system.fridges.repositories;
 
-import com.system.fridges.models.Access;
+import com.system.fridges.models.entities.Access;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

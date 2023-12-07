@@ -1,7 +1,7 @@
 package com.system.fridges.controllers;
 
 
-import com.system.fridges.models.*;
+import com.system.fridges.models.entities.*;
 import com.system.fridges.service.AdminServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -42,27 +42,27 @@ public class DatabaseAdminController {
     }
 
     @GetMapping("/allOffice")
-    public ResponseEntity<List<Office>> getAllOffice() {
+    public ResponseEntity<List<Office>> getAllOffices() {
         return ResponseEntity.ok(adminService.getAllOffice());
     }
 
     @GetMapping("/allModel")
-    public ResponseEntity<List<Model>> getAllModel() {
+    public ResponseEntity<List<Model>> getAllModels() {
         return ResponseEntity.ok(adminService.getAllModel());
     }
 
     @GetMapping("/allSubscription")
-    public ResponseEntity<List<Subscription>> getAllSubscription() {
+    public ResponseEntity<List<Subscription>> getAllSubscriptions() {
         return ResponseEntity.ok(adminService.getAllSubscription());
     }
 
     @GetMapping("/allAutoOrder")
-    public ResponseEntity<List<AutoOrder>> getAllOrder() {
+    public ResponseEntity<List<AutoOrder>> getAllOrders() {
         return ResponseEntity.ok(adminService.getAllOrder());
     }
 
     @GetMapping("/allProduct")
-    public ResponseEntity<List<Product>> getAllProduct() {
+    public ResponseEntity<List<Product>> getAllProducts() {
         return ResponseEntity.ok(adminService.getAllProduct());
     }
 
@@ -72,7 +72,7 @@ public class DatabaseAdminController {
     }
 
     @GetMapping("/transaction")
-    public ResponseEntity<List<Transaction>> getAllTransaction() {
+    public ResponseEntity<List<Transaction>> getAllTransactions() {
         return ResponseEntity.ok(adminService.getAllTransaction());
     }
 
@@ -82,7 +82,7 @@ public class DatabaseAdminController {
     }
 
     @PostMapping("/addUser")
-    public void addUser(@RequestBody List<User> user) {
+    public void addUsers(@RequestBody List<User> user) {
         adminService.addUser(user);
     }
 
@@ -92,27 +92,27 @@ public class DatabaseAdminController {
     }
 
     @PostMapping("/addOffice")
-    public void addOffice(@RequestBody List<Office> office) {
+    public void addOffices(@RequestBody List<Office> office) {
         adminService.addOffice(office);
     }
 
     @PostMapping("/addModel")
-    public void addModel(@RequestBody List<Model> model) {
+    public void addModels(@RequestBody List<Model> model) {
         adminService.addModel(model);
     }
 
     @PostMapping("/addSubscription")
-    public void addSubscription(@RequestBody List<Subscription> subscription) {
+    public void addSubscriptions(@RequestBody List<Subscription> subscription) {
         adminService.addSubscription(subscription);
     }
 
     @PostMapping("/addProduct")
-    public void addProduct(@RequestBody List<Product> product) {
+    public void addProducts(@RequestBody List<Product> product) {
         adminService.addProduct(product);
     }
 
     @PostMapping("/addAutoOrder")
-    public void addAutoOrder(@RequestBody List<AutoOrder> autoOrders) {
+    public void addAutoOrders(@RequestBody List<AutoOrder> autoOrders) {
         adminService.addAutoOrder(autoOrders);
     }
 
@@ -122,17 +122,17 @@ public class DatabaseAdminController {
     }
 
     @PostMapping("/addTransaction")
-    public void addTransaction(@RequestBody List<Transaction> transaction) {
+    public void addTransactions(@RequestBody List<Transaction> transaction) {
         adminService.addTransaction(transaction);
     }
 
     @PostMapping("/deleteUsers")
-    public void deleteUser(@RequestBody List<Integer> user) {
+    public void deleteUsers(@RequestBody List<Integer> user) {
         adminService.deleteUser(user);
     }
 
     @PostMapping("/deleteFridges")
-    public void deleteFridge(@RequestBody List<Integer> fridge) {
+    public void deleteFridges(@RequestBody List<Integer> fridge) {
         adminService.deleteFridge(fridge);
     }
 
@@ -142,27 +142,27 @@ public class DatabaseAdminController {
     }
 
     @PostMapping("/deleteOffice")
-    public void deleteOffice(@RequestBody List<Integer> office) {
+    public void deleteOffices(@RequestBody List<Integer> office) {
         adminService.deleteOffice(office);
     }
 
     @PostMapping("/deleteModel")
-    public void deleteModel(@RequestBody List<Integer> model) {
+    public void deleteModels(@RequestBody List<Integer> model) {
         adminService.deleteModel(model);
     }
 
     @PostMapping("/deleteSubscription")
-    public void deleteSubscription(@RequestBody List<Integer> subscription) {
+    public void deleteSubscriptions(@RequestBody List<Integer> subscription) {
         adminService.deleteSubscription(subscription);
     }
 
     @PostMapping("/deleteProduct")
-    public void deleteProduct(@RequestBody List<Integer> product) {
+    public void deleteProducts(@RequestBody List<Integer> product) {
         adminService.deleteProduct(product);
     }
 
     @PostMapping("/deleteAutoOrder")
-    public void deleteAutoOrder(@RequestBody List<Integer> autoOrder) {
+    public void deleteAutoOrders(@RequestBody List<Integer> autoOrder) {
         adminService.deleteAutoOrder(autoOrder);
     }
 
@@ -172,7 +172,7 @@ public class DatabaseAdminController {
     }
 
     @PostMapping("/deleteTransaction")
-    public void deleteTransaction(@RequestBody List<Integer> transaction) {
+    public void deleteTransactions(@RequestBody List<Integer> transaction) {
         adminService.deleteTransaction(transaction);
     }
 }

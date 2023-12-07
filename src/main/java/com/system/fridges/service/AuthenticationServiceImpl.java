@@ -1,10 +1,9 @@
 package com.system.fridges.service;
 
-import com.system.fridges.models.User;
-import com.system.fridges.models.transferObjects.JwtAuthenticationResponse;
-import com.system.fridges.models.transferObjects.RefreshTokenRequest;
+import com.system.fridges.models.entities.User;
+import com.system.fridges.models.transferObjects.authenticationObjects.JwtAuthenticationResponse;
+import com.system.fridges.models.transferObjects.authenticationObjects.RefreshTokenRequest;
 import com.system.fridges.repositories.UserRepository;
-import com.system.fridges.security.JwtAuthenticationFilter;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

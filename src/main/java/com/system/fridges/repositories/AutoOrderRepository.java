@@ -1,6 +1,6 @@
 package com.system.fridges.repositories;
 
-import com.system.fridges.models.AutoOrder;
+import com.system.fridges.models.entities.AutoOrder;
 import com.system.fridges.models.transferObjects.fridgeObjects.FridgeOrder;
 import com.system.fridges.models.transferObjects.userObjects.UserOrder;
 import org.springframework.data.jpa.repository.JpaRepository;

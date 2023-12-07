@@ -1,6 +1,6 @@
 package com.system.fridges.controllers;
 
-import com.system.fridges.models.*;
+import com.system.fridges.models.entities.*;
 import com.system.fridges.models.transferObjects.userObjects.UserFood;
 import com.system.fridges.models.transferObjects.userObjects.UserOrder;
 import com.system.fridges.models.transferObjects.userObjects.UserTransactionHistory;
@@ -19,7 +19,6 @@ public class UserController {
     @Autowired
     private UserServiceImpl userService;
 
-
     @PostMapping("/account/{email}/update")
     public void updateUserAccount(@PathVariable String email, @RequestParam("file") MultipartFile file) {
         userService.saveUser(userService.findUserByEmail(email), file);
@@ -31,7 +30,7 @@ public class UserController {
     }
 
     @GetMapping("/photo/{email}")
-    public ResponseEntity<byte[]>  getUserPhoto(@PathVariable String email) {
+    public ResponseEntity<byte[]> getUserPhoto(@PathVariable String email) {
         return ResponseEntity.ok(userService.getUserPhoto(email));
     }
 

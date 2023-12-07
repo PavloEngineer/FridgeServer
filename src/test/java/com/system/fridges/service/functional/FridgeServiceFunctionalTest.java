@@ -1,8 +1,9 @@
 package com.system.fridges.service.functional;
 
-import com.system.fridges.models.*;
+import com.system.fridges.models.entities.Access;
+import com.system.fridges.models.entities.Fridge;
+import com.system.fridges.models.entities.User;
 import com.system.fridges.models.transferObjects.foodObjects.FoodInFridge;
-import com.system.fridges.models.transferObjects.foodObjects.SpoiledFood;
 import com.system.fridges.models.transferObjects.fridgeObjects.FridgeOrder;
 import com.system.fridges.models.transferObjects.fridgeObjects.FridgeTransactionHistory;
 import com.system.fridges.repositories.*;
@@ -12,12 +13,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.verify;
-import static org.mockito.internal.verification.VerificationModeFactory.times;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class FridgeServiceFunctionalTest {

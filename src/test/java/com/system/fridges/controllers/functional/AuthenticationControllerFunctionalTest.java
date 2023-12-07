@@ -1,7 +1,7 @@
 package com.system.fridges.controllers.functional;
 
-import com.system.fridges.models.transferObjects.JwtAuthenticationResponse;
-import com.system.fridges.models.transferObjects.RefreshTokenRequest;
+import com.system.fridges.models.transferObjects.authenticationObjects.JwtAuthenticationResponse;
+import com.system.fridges.models.transferObjects.authenticationObjects.RefreshTokenRequest;
 import com.system.fridges.models.transferObjects.userObjects.SignInRequest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class AuthControllerFunctionalTest {
+class AuthenticationControllerFunctionalTest {
 
     @Autowired
     private TestRestTemplate restTemplate;

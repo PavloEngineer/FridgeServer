@@ -1,7 +1,7 @@
 package com.system.fridges.service.utils;
 
-import com.system.fridges.models.AutoOrder;
-import com.system.fridges.models.transferObjects.AutoOrderRequest;
+import com.system.fridges.models.entities.AutoOrder;
+import com.system.fridges.models.transferObjects.orderObjects.AutoOrderRequest;
 import com.system.fridges.repositories.AutoOrderRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

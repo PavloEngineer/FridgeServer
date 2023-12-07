@@ -1,6 +1,6 @@
 package com.system.fridges.repositories;
 
-import com.system.fridges.models.Food;
+import com.system.fridges.models.entities.Food;
 import com.system.fridges.models.transferObjects.foodObjects.FoodInFridge;
 import com.system.fridges.models.transferObjects.foodObjects.SpoiledFood;
 import com.system.fridges.models.transferObjects.userObjects.UserFood;

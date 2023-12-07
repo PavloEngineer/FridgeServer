@@ -1,6 +1,6 @@
 package com.system.fridges.controllers.functional;
 
-import com.system.fridges.models.*;
+import com.system.fridges.models.entities.*;
 import com.system.fridges.models.transferObjects.userObjects.UserFood;
 import com.system.fridges.models.transferObjects.userObjects.UserOrder;
 import com.system.fridges.models.transferObjects.userObjects.UserTransactionHistory;

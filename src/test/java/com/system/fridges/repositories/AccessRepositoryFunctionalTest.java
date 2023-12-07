@@ -1,9 +1,8 @@
 package com.system.fridges.repositories;
 
-import com.system.fridges.models.Access;
+import com.system.fridges.models.entities.Access;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 

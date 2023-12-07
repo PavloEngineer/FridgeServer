@@ -1,10 +1,9 @@
 package com.system.fridges.controllers;
 
-import com.system.fridges.controllers.AuthController;
-import com.system.fridges.models.User;
+import com.system.fridges.models.entities.User;
 import com.system.fridges.models.enam.UserType;
-import com.system.fridges.models.transferObjects.JwtAuthenticationResponse;
-import com.system.fridges.models.transferObjects.RefreshTokenRequest;
+import com.system.fridges.models.transferObjects.authenticationObjects.JwtAuthenticationResponse;
+import com.system.fridges.models.transferObjects.authenticationObjects.RefreshTokenRequest;
 import com.system.fridges.models.transferObjects.userObjects.SignInRequest;
 import com.system.fridges.service.AuthenticationServiceImpl;
 import com.system.fridges.service.UserServiceImpl;
@@ -22,10 +21,10 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class AuthControllerTest {
+class AuthenticationControllerTest {
 
     @InjectMocks
-    private AuthController authController;
+    private AuthenticationController authenticationController;
 
     @Mock
     private UserServiceImpl userService;
@@ -42,7 +41,7 @@ class AuthControllerTest {
         when(userService.signIn(signInRequest)).thenReturn(new JwtAuthenticationResponse());
 
         // Act
-        ResponseEntity<JwtAuthenticationResponse> responseEntity = authController.singIn(signInRequest);
+        ResponseEntity<JwtAuthenticationResponse> responseEntity = authenticationController.singIn(signInRequest);
 
         // Assert
         assertNotNull(responseEntity.getBody());
@@ -57,7 +56,7 @@ class AuthControllerTest {
         when(authenticationService.refreshToken(refreshTokenRequest)).thenReturn(new JwtAuthenticationResponse());
 
         // Act
-        ResponseEntity<JwtAuthenticationResponse> responseEntity = authController.refresh(refreshTokenRequest);
+        ResponseEntity<JwtAuthenticationResponse> responseEntity = authenticationController.refresh(refreshTokenRequest);
 
         // Assert
         assertNotNull(responseEntity.getBody());
@@ -74,7 +73,7 @@ class AuthControllerTest {
         MultipartFile file = mock(MultipartFile.class);
 
         // Act
-        authController.registerUser(user, file);
+        authenticationController.registerUser(user, file);
 
         // Assert
         // Verify that the saveUser method is called

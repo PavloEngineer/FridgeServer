@@ -1,4 +1,4 @@
-package com.system.fridges.models;
+package com.system.fridges.models.entities;
 
 
 import jakarta.persistence.*;

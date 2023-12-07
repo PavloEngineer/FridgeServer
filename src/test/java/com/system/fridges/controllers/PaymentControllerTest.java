@@ -1,10 +1,8 @@
 package com.system.fridges.controllers;
 
 
-import com.system.fridges.models.transferObjects.stripeObjects.StripeCharge;
 import com.system.fridges.models.transferObjects.stripeObjects.StripeRequest;
 import com.system.fridges.models.transferObjects.stripeObjects.StripeResponse;
-import com.system.fridges.models.transferObjects.stripeObjects.StripeToken;
 import com.system.fridges.service.StripeService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
