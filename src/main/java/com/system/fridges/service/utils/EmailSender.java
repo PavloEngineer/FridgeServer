@@ -11,15 +11,25 @@ public class EmailSender {
 
     private static final  String SUBJECT = "Program controlling fridges";
 
+    private static final String SMTP_HOST = "smtp.gmail.com";
+
+    private static final int SMTP_PORT = 587;
+
+    private static final String EMAIL_ADDRESS = "ukrainigromadanin284@gmail.com";
+
+    private static final String EMAIL_PASSWORD = "mmniqeveixmprktj";
+
+    private static final String MAIL_STARTTLS_ENABLE = "true";
+
     private final JavaMailSenderImpl javaMailSender = new JavaMailSenderImpl();
 
-    public void sendEmail(String to, String body) throws MessagingException {
+    public void sendEmail(String emailTo, String body) throws MessagingException {
         connectEmailSender();
 
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
 
-        helper.setTo(to);
+        helper.setTo(emailTo);
         helper.setSubject(SUBJECT);
         helper.setText(body);
 
@@ -27,11 +37,11 @@ public class EmailSender {
     }
 
     private void connectEmailSender() {
-        javaMailSender.setHost("smtp.gmail.com");
-        javaMailSender.setPort(587);
-        javaMailSender.setUsername("ukrainigromadanin284@gmail.com");
-        javaMailSender.setPassword("mmniqeveixmprktj");
+        javaMailSender.setHost(SMTP_HOST);
+        javaMailSender.setPort(SMTP_PORT);
+        javaMailSender.setUsername(EMAIL_ADDRESS);
+        javaMailSender.setPassword(EMAIL_PASSWORD);
         Properties props = javaMailSender.getJavaMailProperties();
-        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.starttls.enable", MAIL_STARTTLS_ENABLE);
     }
 }

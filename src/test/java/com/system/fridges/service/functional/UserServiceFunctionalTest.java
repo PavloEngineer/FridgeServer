@@ -13,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
 import java.util.List;
@@ -50,6 +51,7 @@ public class UserServiceFunctionalTest {
     private AuthenticationServiceImpl authenticationService;
 
     @Test
+    @Transactional
     void getFridgesByUserEmailTest() {
         // Arrange
         String email = "pasakane990@gmail.com";

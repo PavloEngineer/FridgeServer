@@ -52,7 +52,7 @@ public class FridgeRepositoryFunctionalTest {
         int userId = 1;
 
         // Act
-        List<Fridge> fridges = fridgeRepository.getFridgesByUserId(userId);
+        List<Fridge> fridges = fridgeRepository.getFridgesByUserId(userId).get();
 
         // Assert
         assertNotNull(fridges);

@@ -1,26 +1,19 @@
 package com.system.fridges.service;
 
 import com.system.fridges.models.entities.*;
-import com.system.fridges.models.transferObjects.authenticationObjects.JwtAuthenticationResponse;
-import com.system.fridges.models.transferObjects.userObjects.SignInRequest;
 import com.system.fridges.models.transferObjects.userObjects.UserTransactionHistory;
 import com.system.fridges.models.transferObjects.userObjects.UserFood;
 import com.system.fridges.models.transferObjects.userObjects.UserOrder;
 import com.system.fridges.repositories.*;
-import com.system.fridges.security.PasswordHashing;
 import com.system.fridges.service.interfaces.UserService;
-import com.system.fridges.service.utils.PhotoManager;
+import com.system.fridges.service.utils.PhotoParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -50,53 +43,16 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private AuthenticationServiceImpl authenticationService;
 
-
-    private String uploadPath = "/fridges/img";
+    @Autowired
+    private CustomUserDetailsService customUserDetailsService;
 
     public UserServiceImpl() {}
 
-    public  UserDetailsService userDetailsService() {
-        return new UserDetailsService() {
-            @Override
-            public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-                User user = userRepository.findUserByEmail(username).orElse(null);
-                if (user == null) {
-                    throw new UsernameNotFoundException("User not found with username: " + username);
-                }
-                return new org.springframework.security.core.userdetails.User(
-                        user.getEmail(),
-                        user.getHashPassword(),
-                        // Тут ви можете вказати ролі користувача. Наприклад, якщо у вас є поле roles у класі User:
-                        // user.getRoles().stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList())
-                        // Де roles - це колекція ролей користувача.
-                        Collections.emptyList()
-                );
-            }
-        };
-    }
-
-    // TODO: incorrect place
-    public JwtAuthenticationResponse signIn(SignInRequest signInRequest) {
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                signInRequest.getEmail(),
-                signInRequest.getPassword())
-        );
-
-        var user = userDetailsService().loadUserByUsername(signInRequest.getEmail());
-        var jwt = authenticationService.generationToken(user);
-        var refreshToken = authenticationService.generationRefreshToken(new HashMap<>(), user);
-
-        JwtAuthenticationResponse jwtAuthenticationResponse = new JwtAuthenticationResponse();
-
-        jwtAuthenticationResponse.setToken(jwt);
-        jwtAuthenticationResponse.setRefreshToken(refreshToken);
-        return jwtAuthenticationResponse;
-    }
-
     @Override
+    @Transactional
     public List<Fridge> getFridgesByUserEmail(String email) {
         User user = userRepository.findUserByEmail(email).orElse(new User());
-        return fridgeRepository.getFridgesByUserId(user.getUserId());
+        return fridgeRepository.getFridgesByUserId(user.getUserId()).get();
     }
 
     @Override
@@ -134,38 +90,20 @@ public class UserServiceImpl implements UserService {
 
     public byte[] getUserPhoto(String email) {
         String photoPath = userRepository.findUserByEmail(email).orElse(new User()).getPhoto();
-        return PhotoManager.pushPhoto(photoPath);
+        return PhotoParser.pullPhoto(photoPath);
     }
 
     @Override
     public void saveUser(User user, MultipartFile file) {
-        PasswordHashing passwordHashing = new PasswordHashing();
-        user.setHashPassword(passwordHashing.encodePassword(user.getHashPassword()));
-        PhotoManager photoManager = new PhotoManager(file);
-        photoManager.savePhoto();
-        user.setPhoto(photoManager.getAbsolutePath());
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        user.setHashPassword(passwordEncoder.encode(user.getHashPassword()));
+
+        PhotoParser photoParser = new PhotoParser(file);
+        photoParser.savePhoto();
+
+        user.setPhoto(photoParser.getAbsolutePath());
         userRepository.save(user);
     }
-
-//    private void savePhoto(MultipartFile file) {
-//        if (file == null || file.isEmpty() || file.getOriginalFilename() == null) return "";
-//        try {
-//            // Отримати шлях до теки проекту
-//            String folderPath = System.getProperty(uploadPath);
-//
-//            // Створити файл у папці "img"
-//            File destination = new File(folderPath, Objects.requireNonNull(file.getOriginalFilename()));
-//
-//            // Зберегти файл на сервері
-//            FileCopyUtils.copy(file.getBytes(), destination);
-//
-//            // Повернути шлях до збереженого файлу
-//            return destination.getAbsolutePath();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//            return "Upload failed";
-//        }
-//    }
 
     @Override
     public void deleteUser(String email) {

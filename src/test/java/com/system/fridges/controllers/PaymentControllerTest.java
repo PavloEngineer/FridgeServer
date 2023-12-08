@@ -3,7 +3,7 @@ package com.system.fridges.controllers;
 
 import com.system.fridges.models.transferObjects.stripeObjects.StripeRequest;
 import com.system.fridges.models.transferObjects.stripeObjects.StripeResponse;
-import com.system.fridges.service.StripeService;
+import com.system.fridges.service.StripeServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -23,13 +23,13 @@ public class PaymentControllerTest {
     private PaymentController paymentController;
 
     @Mock
-    private StripeService stripeService;
+    private StripeServiceImpl stripeServiceImpl;
 
     @Test
     void createPaymentIntent() throws Exception {
         StripeRequest stripeRequest = new StripeRequest();
         stripeRequest.setEmail("pasakane990@gmail.com");
-        when(stripeService.createPaymentIntent(stripeRequest)).thenReturn(new StripeResponse());
+        when(stripeServiceImpl.createPaymentIntent(stripeRequest)).thenReturn(new StripeResponse());
 
         ResponseEntity<StripeResponse> responseEntity = paymentController.createPaymentIntent(stripeRequest);
 

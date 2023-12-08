@@ -58,7 +58,7 @@ public class UserServiceTest {
         User user = new User("Den", "French", "Psf", "345",
                 "pav45@gmail.com", "DF-345", null, "38095674546", UserType.REGULAR_USER);;
         when(userRepository.findUserByEmail(userEmail)).thenReturn(java.util.Optional.of(user));
-        when(fridgeRepository.getFridgesByUserId(user.getUserId())).thenReturn(Collections.singletonList(new Fridge()));
+//        when(fridgeRepository.getFridgesByUserId(user.getUserId())).thenReturn(Collections.singletonList(new Fridge()));
 
         List<Fridge> fridges = userService.getFridgesByUserEmail(userEmail);
 

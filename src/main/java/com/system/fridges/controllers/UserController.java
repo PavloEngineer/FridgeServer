@@ -7,6 +7,7 @@ import com.system.fridges.models.transferObjects.userObjects.UserTransactionHist
 import com.system.fridges.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -55,7 +56,7 @@ public class UserController {
     }
 
     @GetMapping("/fridges/{email}")
-    public ResponseEntity<List<Fridge>> getAvailableFridges(@PathVariable String email) {
+    public ResponseEntity<List<Fridge>> getAvailableFridges(@PathVariable String email) {;
         return ResponseEntity.ok(userService.getFridgesByUserEmail(email));
     }
 

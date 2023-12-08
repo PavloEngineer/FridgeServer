@@ -7,27 +7,32 @@ import com.stripe.model.PaymentIntent;
 import com.stripe.param.PaymentIntentCreateParams;
 import com.system.fridges.models.transferObjects.stripeObjects.StripeRequest;
 import com.system.fridges.models.transferObjects.stripeObjects.StripeResponse;
+import com.system.fridges.service.interfaces.StripeService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
-public class StripeService {
+public class StripeServiceImpl implements StripeService {
 
     @Value("${stripe.api.publicKey}")
     private String publicKey;
+
+    private final static long PRICE = 100L;
 
     void init() {
         Stripe.apiKey = publicKey;
     }
 
-     public StripeResponse createPaymentIntent(StripeRequest request)
+    @Override
+    public StripeResponse createPaymentIntent(StripeRequest request)
             throws StripeException {
 
-         Customer customer = new Customer();
-         customer.setEmail(request.getEmail());
+        Customer customer = new Customer();
+        customer.setEmail(request.getEmail());
+
         PaymentIntentCreateParams params =
                 PaymentIntentCreateParams.builder()
-                        .setAmount(request.getAmount() * 100L)
+                        .setAmount(request.getAmount() * PRICE)
                         .setCurrency("usd")
                         .setCustomer(customer.getId())
                         .setAutomaticPaymentMethods(
@@ -40,6 +45,7 @@ public class StripeService {
                         .build();
         PaymentIntent intent =
                 PaymentIntent.create(params);
+
         return new StripeResponse(intent.getId(),
                 intent.getClientSecret());
     }

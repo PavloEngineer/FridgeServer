@@ -38,7 +38,7 @@ class AuthenticationControllerTest {
         SignInRequest signInRequest = new SignInRequest();
         signInRequest.setEmail("pasakan2@gmail.com");
         signInRequest.setPassword("1234");
-        when(userService.signIn(signInRequest)).thenReturn(new JwtAuthenticationResponse());
+        when(authenticationService.signIn(signInRequest)).thenReturn(new JwtAuthenticationResponse());
 
         // Act
         ResponseEntity<JwtAuthenticationResponse> responseEntity = authenticationController.singIn(signInRequest);

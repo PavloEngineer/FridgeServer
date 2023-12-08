@@ -1,5 +1,6 @@
 package com.system.fridges.models.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.system.fridges.models.transferObjects.fridgeObjects.FridgeSpending;
 import jakarta.persistence.*;
 

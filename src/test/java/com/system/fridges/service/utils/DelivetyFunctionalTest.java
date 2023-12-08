@@ -22,6 +22,6 @@ public class DelivetyFunctionalTest {
         AutoOrderRequest autoOrderRequest = new AutoOrderRequest(autoOrder);
 
         // Act
-        delivety.doAutoOrdering(autoOrderRequest);
+        delivety.sendAutoOrdering(autoOrderRequest);
     }
 }

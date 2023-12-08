@@ -45,11 +45,13 @@ public class FridgeServiceImpl implements FridgeService {
     @Autowired
     private AccessRepository accessRepository;
 
-    private EmailSender emailSender = new EmailSender();
+    private final EmailSender emailSender = new EmailSender();
 
+    @Override
     public User checkUserById(int fridgeId, int userId) {
         List<Access> accesses = accessRepository.findAllAccessForUserById(userId);
         User user = userRepository.findById(userId).get();
+
         if (userRepository.findById(userId).isPresent() && !accesses.isEmpty()) {
             for (Access access : accesses) {
                 if (access.getFridge().getFridgeId() == fridgeId &&
@@ -89,6 +91,7 @@ public class FridgeServiceImpl implements FridgeService {
     @Override
     public List<FridgeOrder> getAutoOrdersById(int fridgeId, String email) {
         User user = userRepository.findUserByEmail(email).orElse(null);
+
         if (user != null &&
                 !subscriptionRepository.getActualSubscriptionsForUser(user.getUserId()).isEmpty()) {
             return autoOrderRepository.getInfoOrdersForFridgeById(fridgeId);
@@ -107,12 +110,11 @@ public class FridgeServiceImpl implements FridgeService {
     private void sendEmailEveryOwnerFood(List<SpoiledFood> spoiledFoodsInFridge) {
         User user;
         String bodyMessage;
+
         try {
             for (SpoiledFood spoiledFood : spoiledFoodsInFridge) {
                 user = userRepository.findById(spoiledFood.getUserAccess()).get();
-                bodyMessage = "Your food:" + spoiledFood.getName() + ", Date validity:" +
-                        spoiledFood.getDateValidity() + ", amount: " + spoiledFood.getNumberBoxes() +
-                        ", date transaction:" + spoiledFood.getEndDate() + " is spoiled. Please, get rid of this food";
+                bodyMessage = generateMessageForSpoiledFood(spoiledFood);
                 emailSender.sendEmail(user.getEmail(), bodyMessage);
             }
         } catch (Exception e) {
@@ -120,18 +122,26 @@ public class FridgeServiceImpl implements FridgeService {
         }
     }
 
+    private String generateMessageForSpoiledFood(SpoiledFood spoiledFood) {
+        return "Your food:" + spoiledFood.getName() + ", Date validity:" +
+                spoiledFood.getDateValidity() + ", amount: " + spoiledFood.getNumberBoxes() +
+                ", date transaction:" + spoiledFood.getEndDate() + " is spoiled. Please, get rid of this food";
+    }
+
     @Override
     public void doAutoOrdering(int fridgeId) {
         List<AutoOrder> autoOrdering = autoOrderRepository.findAll();
         Delivety delivety = new Delivety();
+        boolean isTimeToOrder;
 
         for (AutoOrder autoOrder : autoOrdering) {
-            if (autoOrder.getAccess().getFridge().getFridgeId() == fridgeId &&
-                autoOrder.getDateDelivery().isBefore(LocalDateTime.now()) ||
-                    autoOrder.getDateDelivery().isEqual(LocalDateTime.now())) {
+            isTimeToOrder = autoOrder.getAccess().getFridge().getFridgeId() == fridgeId &&
+                    autoOrder.getDateDelivery().isBefore(LocalDateTime.now()) ||
+                    autoOrder.getDateDelivery().isEqual(LocalDateTime.now());
 
+            if (isTimeToOrder) {
                 AutoOrderRequest newRequest = new AutoOrderRequest(autoOrder);
-                delivety.doAutoOrdering(newRequest);
+                delivety.sendAutoOrdering(newRequest);
                 autoOrderRepository.deleteById(autoOrder.getOrderId());
             }
         }

@@ -10,7 +10,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Objects;
 
-public class PhotoManager {
+public class PhotoParser {
 
     private static final String UPLOAD_PATH = "/fridges/img";
 
@@ -18,22 +18,16 @@ public class PhotoManager {
 
     private String absolutePath;
 
-    public PhotoManager(MultipartFile multipartFile) {
+    public PhotoParser(MultipartFile multipartFile) {
         this.file = multipartFile;
     }
 
     public void savePhoto() {
         if (file == null || file.isEmpty() || file.getOriginalFilename() == null) return;
         try {
-            // Отримати шлях до теки проекту
             String folderPath = System.getProperty(UPLOAD_PATH);
-
-            // Створити файл у папці "img"
             File destination = new File(folderPath, Objects.requireNonNull(file.getOriginalFilename()));
-
-            // Зберегти файл на сервері
             FileCopyUtils.copy(file.getBytes(), destination);
-
             absolutePath = destination.getAbsolutePath();
         } catch (IOException e) {
             e.printStackTrace();
@@ -47,7 +41,7 @@ public class PhotoManager {
        return "";
     }
 
-    public static byte[] pushPhoto(String photoPath){
+    public static byte[] pullPhoto(String photoPath){
         if (photoPath != null) {
             try {
                 Path path = Paths.get(photoPath);

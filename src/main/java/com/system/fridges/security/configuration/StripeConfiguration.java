@@ -1,4 +1,4 @@
-package com.system.fridges.security;
+package com.system.fridges.security.configuration;
 
 import com.stripe.Stripe;
 import jakarta.annotation.PostConstruct;

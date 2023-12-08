@@ -1,34 +1,28 @@
 package com.system.fridges.service.utils;
 
-
 public class DatabaseManager {
 
-    private static final String username = "root";
-
-    private static final String password = "Pavlo1212004";
-
-    private static final String databaseUrl = "jdbc:mysql://localhost:3306/control_fridges";
-
-
+    /** Uses "mysqldump" command for backup */
     public boolean backupSuccessful(String backupPath) {
         ProcessBuilder processBuilder = new ProcessBuilder(
                 "C:\\Program Files\\MySQL\\MySQL Server 8.0\\bin\\mysqldump",
-                "-u", username,
-                "-p" + password,
+                "-u", Constants.DATABASE_USERNAME,
+                "-p" + Constants.DATABASE_PASSWORD,
                 "--add-drop-table",
-                "--databases", databaseUrl,
+                "--databases", Constants.DATABASE_URL,
                 "-r", backupPath
         );
 
         return createProcessSuccessful(processBuilder);
     }
 
+    /** Uses "mysql" command for restoring */
     public boolean restoreSuccessful(String backupPath) {
         ProcessBuilder processBuilder = new ProcessBuilder(
                 "C:\\Program Files\\MySQL\\MySQL Server 8.0\\bin\\mysql",
-                "-u" + username,
-                "-p" + password,
-                databaseUrl,
+                "-u" + Constants.DATABASE_USERNAME,
+                "-p" + Constants.DATABASE_PASSWORD,
+                Constants.DATABASE_URL,
                 "-e", "source " + backupPath
         );
 

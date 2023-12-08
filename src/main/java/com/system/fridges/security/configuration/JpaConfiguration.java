@@ -1,5 +1,6 @@
-package com.system.fridges.security;
+package com.system.fridges.security.configuration;
 
+import com.system.fridges.service.utils.Constants;
 import jakarta.persistence.EntityManagerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,13 +17,14 @@ import javax.sql.DataSource;
 @Configuration
 @EnableJpaRepositories("com.system.fridges.repositories")
 public class JpaConfiguration {
+
     @Bean
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://localhost:3306/control_fridges");
-        dataSource.setUsername( "root" );
-        dataSource.setPassword( "Pavlo1212004" );
+        dataSource.setDriverClassName(Constants.JDBC_DRIVER);
+        dataSource.setUrl(Constants.DATABASE_URL);
+        dataSource.setUsername(Constants.DATABASE_USERNAME);
+        dataSource.setPassword(Constants.DATABASE_PASSWORD);
         return dataSource;
     }
 
@@ -41,10 +43,10 @@ public class JpaConfiguration {
 
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
-        LocalContainerEntityManagerFactoryBean lemfb = new LocalContainerEntityManagerFactoryBean();
-        lemfb.setDataSource(dataSource());
-        lemfb.setJpaVendorAdapter(jpaVendorAdapter());
-        lemfb.setPackagesToScan("com.system.fridges.models");
-        return lemfb;
+        LocalContainerEntityManagerFactoryBean managerFactoryBean = new LocalContainerEntityManagerFactoryBean();
+        managerFactoryBean.setDataSource(dataSource());
+        managerFactoryBean.setJpaVendorAdapter(jpaVendorAdapter());
+        managerFactoryBean.setPackagesToScan(Constants.PATH_TO_MODELS);
+        return managerFactoryBean;
     }
 }
