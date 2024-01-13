@@ -5,7 +5,7 @@ refrigerators. This part supports three types of users: employee, admin for data
 
 ## Technology
 
-Server based on Java and Spring Boot and REST API. Security was built using Spring Security including hashing and JWT. To work with data from a database, the server system uses Hibernate. The system uses Stripe API in test mode and Delivety API.
+Server based on Java, Spring Boot and REST API. Security was built using Spring Security including hashing and JWT. To work with data from a database, the server system uses Hibernate. The system uses Stripe API in test mode and Delivety API.
 Other stack: Code Conventions, SOLID, Unit testing
 
 
