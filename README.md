@@ -1,7 +1,7 @@
 #  Server part of system for smart fridges
 
 It is a server part of a software system for organizing corporate work
-refrigerators. This part supports three types of users: employee, admin for database and business admin. The server part provides functions such as CRUD operations for data, the logic of inventory for each fridge and send message to user using email, the function to deliver food and payment for additional functions, authorization and authentication, ensuring data protection using hash and tokens.
+refrigerators. This part supports three types of users: employee, admin for database and business admin. The server part provides functions such as CRUD operations for data, the logic of inventory for each fridge and sending messages to users using email, the function to deliver food and payment for additional functions, authorization and authentication, ensuring data protection using hash and tokens.
 
 ## Technology
 
